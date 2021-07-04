@@ -1,8 +1,10 @@
 import discord
 from discord.ext import commands
-import json
-with open("infor.json", mode="r") as file:
-    infor = json.load(file)
 
-bot=commands.Bot(command_prefix="8==D")
-print(infor["token"])
+bot=commands.Bot(command_prefix="/")
+
+@bot.event
+async def on_ready():
+    print(">>>>>bot is starting to run<<<<<")
+
+bot.run("ODQ2OTMyODIxMzk3OTk1NTQw.YK2tpw.dpljs9bVdbr0nD4rdVRpo6Wbdqk")
