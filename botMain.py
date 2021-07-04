@@ -4,7 +4,8 @@ import json
 with open("infor.json", mode="r") as file:
     infor=json.load(file)
 
-bot=commands.Bot(command_prefix="/")
+intents=discord.Intents.all()
+bot=commands.Bot(command_prefix="/", intents=intents)
 
 @bot.event
 async def on_ready():
@@ -12,10 +13,13 @@ async def on_ready():
 
 @bot.event
 async def on_member_join(member):
-    print(f"{member} join")
+    channel = bot.get_channel(860469237214740491)
+    await channel.send(">>"+str(member)+" join!")
 
 @bot.event
 async def on_member_remove(member):
-    print(f"{member} leave")
+    channel = bot.get_channel(860469237214740491)
+    await channel.send(">>"+str(member)+" join!")
 
-bot.run(infor["token"])
+if __name__ == "__main__":
+    bot.run(infor["token"])
