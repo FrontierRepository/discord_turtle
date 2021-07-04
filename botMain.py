@@ -9,7 +9,7 @@ bot=commands.Bot(command_prefix="/")
 @bot.event
 async def on_ready():
     print(">>>>>bot is starting to run<<<<<")
-#確定機器人開始運行
+
 @bot.event
 async def on_member_join(member):
     print(f"{member} join")
