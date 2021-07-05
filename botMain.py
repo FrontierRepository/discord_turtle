@@ -64,7 +64,7 @@ async def react(ctx):
   await ctx.channel.purge(limit=1)
   embed=discord.Embed(title="CUTE_TURTLE使用說明書-react篇", color=0x67ff5c)
   embed.add_field(name="8==D hello", value="和你這個邊緣人say hello", inline=False)
-  embed.add_field(name="8==D rps", value="和我這猜拳大師比簡直是個笑話(r=石頭 p=布 s=剪刀)", inline=False)
+  embed.add_field(name="8==D rps [your_choice]", value="和我這猜拳大師比簡直是個笑話(r=石頭 p=布 s=剪刀)", inline=False)
   embed.set_footer(text="笑死,居然還需要幫忙")
   await ctx.send(embed=embed)
 #更改預設的help指令
