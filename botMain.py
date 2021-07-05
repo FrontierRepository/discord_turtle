@@ -32,5 +32,10 @@ async def hello(ctx):
 @bot.command()
 async def drDisrespect(ctx):
     await ctx.send(infor["drDis"])
+#一個會出現Dr.disrespect的指令
+
+@bot.command()
+async def rick_roll(ctx):
+    await ctx.send(infor["rick_roll"])
 
 bot.run(infor["token"])
