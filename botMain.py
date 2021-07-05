@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import json
+import os
 with open("infor.json", mode="r", encoding="utf8") as file:
     infor=json.load(file)
 
@@ -25,17 +26,23 @@ async def on_member_remove(member):
 #在成員離開時發送訊息
 
 @bot.command()
-async def hello(ctx):
-    await ctx.send("what's up sucker")
-#一個打招呼的指令
+async def load(ctx, extension):
+    bot.load_extension("cmds."+str(extension))
+    await ctx.send("successfully loaded")
 
 @bot.command()
-async def drDisrespect(ctx):
-    await ctx.send(infor["drDis"])
-#一個會出現Dr.disrespect的指令
+async def unload(ctx, extension):
+    bot.unload_extension("cmds."+str(extension))
+    await ctx.send("successfully unloaded")
 
 @bot.command()
-async def rick_roll(ctx):
-    await ctx.send(infor["rick_roll"])
+async def reload(ctx, extension):
+    bot.reload_extension("cmds."+str(extension))
+    await ctx.send("successfully reloaded")
 
-bot.run(infor["token"])
+for Filename in os.listdir("./cmds"):
+    if Filename.endswith(".py"):
+        bot.load_extension("cmds."+str(Filename[:-3]))
+
+if __name__ == "__main__":
+    bot.run(infor["token"])
