@@ -19,7 +19,6 @@ async def on_member_join(member):
 @bot.event
 async def on_member_remove(member):
     channel = bot.get_channel(860469237214740491)
-    await channel.send(">>"+str(member)+" join!")
+    await channel.send(">>"+str(member)+" leave!")
 
-if __name__ == "__main__":
-    bot.run(infor["token"])
+bot.run(infor["token"])
