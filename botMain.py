@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import json
 import os
+import keep_alive
 with open("infor.json", mode="r", encoding="utf-8") as file:
     infor=json.load(file)
 
@@ -31,9 +32,19 @@ async def reload(ctx, extension):
     await ctx.send("successfully reloaded")
 #reload cog
 
+@bot.event
+async def on_command_error(ctx, ero):
+  if isinstance(ero, commands.errors.MissingRequiredArgument):
+    await ctx.send("你這傻B還敢不輸完整R")
+  elif isinstance(ero, commands.errors.CommandNotFound):
+    await ctx.send("你連個指令都能輸錯")
+  else:
+    await ctx.send("尛?")
+
 for Filename in os.listdir("./cmds"):
     if Filename.endswith(".py"):
         bot.load_extension("cmds."+str(Filename[:-3]))
 
 if __name__ == "__main__":
-    bot.run(infor["token"])
+  keep_alive.keep_alive()
+  bot.run(infor["token"])
