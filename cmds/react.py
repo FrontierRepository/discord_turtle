@@ -61,7 +61,7 @@ class react(cog_extension):
     #一個猜拳的指令  
     @commands.command()
     async def guess_meme(self,ctx):
-      self.lim=round(random.uniform(1,24))
+      self.lim=round(random.uniform(1,29))
       self.count=0
       for x in meda:
         if self.count<self.lim:
