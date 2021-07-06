@@ -61,7 +61,7 @@ class react(cog_extension):
     #一個猜拳的指令  
     @commands.command()
     async def guess_meme(self,ctx):
-      self.lim=round(random.uniform(1,14))
+      self.lim=round(random.uniform(1,24))
       self.count=0
       for x in meda:
         if self.count<self.lim:
@@ -77,7 +77,7 @@ class react(cog_extension):
       try:
         self.msg=await self.bot.wait_for(event="message", check=check, timeout=20)
       except asyncio.TimeoutError:
-        await ctx.send("超時了你這SB")
+        await ctx.send("超時了你這SB,答案是"+self.ans)
       else:
         await ctx.send("正確答案")
       #玩猜迷因的指令
