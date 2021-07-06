@@ -1,5 +1,6 @@
 import discord
 import random
+import asyncio
 from discord.ext import commands
 
 from core.classes import cog_extension
@@ -46,6 +47,7 @@ class react(cog_extension):
       rst=jm(ms,ai,ero)
       if ero!="yep":
         await ctx.send("你出了"+ms+",電腦出了"+ai)
+      await asyncio.sleep(1)
       if rst=="lose":
         await ctx.send("你輸了你這個魯蛇")
       if rst=="win":
