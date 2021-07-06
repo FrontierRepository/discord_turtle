@@ -1,9 +1,13 @@
 import discord
 import random
 import asyncio
+import json
 from discord.ext import commands
 
 from core.classes import cog_extension
+
+with open("meme.json",mode="r",encoding="utf-8") as file:
+  meda=json.load(file)
 
 def jm(plyr,ai,ero):
   if ero=="yep":
@@ -55,9 +59,28 @@ class react(cog_extension):
       if rst=="tie":
         await ctx.send("你和他打成了平手")
     #一個猜拳的指令  
+    @commands.command()
+    async def guess_meme(self,ctx):
+      self.lim=round(random.uniform(1,14))
+      self.count=0
+      for x in meda:
+        if self.count<self.lim:
+          self.ans=x
+        self.count=self.count+1
+      #隨機獲得圖片
+      await ctx.send("這是哪個迷因")
+      await ctx.send(meda[self.ans])
 
-
+      def check(m):
+        return m.content==str(self.ans) and m.channel==ctx.channel and m.author==ctx.author
       
+      try:
+        self.msg=await self.bot.wait_for(event="message", check=check, timeout=20)
+      except asyncio.TimeoutError:
+        await ctx.send("超時了你這SB")
+      else:
+        await ctx.send("正確答案")
+      #玩猜迷因的指令
 
 def setup(bot):
     bot.add_cog(react(bot))
