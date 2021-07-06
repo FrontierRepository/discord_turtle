@@ -9,6 +9,7 @@ from core.classes import cog_extension
 class meme(cog_extension):
     @commands.command()
     async def rick_roll(self, ctx):
+        await ctx.send("這是哪個迷因")
         await ctx.send(infor["rick_roll"])
     #一個rick roll別人的指令
 
