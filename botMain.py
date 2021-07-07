@@ -48,7 +48,8 @@ async def on_command_error(ctx, ero):
 async def help(ctx):
   embed=discord.Embed(title="CUTE_TURTLE使用說明書", color=0x67ff5c)
   embed.add_field(name=infor["prefix"]+"help meme", value="查詢和迷因有關指令",inline=False)
-  embed.add_field(name=infor["prefix"]+"help react", value="查詢其他的指令", inline=True)
+  embed.add_field(name=infor["prefix"]+"help react", value="查詢和機器人搞~~人與人之間的連結~~,我是說互動的指令", inline=True)
+  embed.add_field(name=infor["prefix"]+"help setting", value="查詢設定這隻機器人的指令", inline=False)
   embed.set_footer(text="笑死,居然還需要幫忙")
   await ctx.send(embed=embed)
 @help.command()
@@ -66,6 +67,13 @@ async def react(ctx):
   embed.add_field(name=infor["prefix"]+"hello", value="和你這個邊緣人say hello", inline=False)
   embed.add_field(name="8==D rps [your_choice]", value="和我這猜拳大師比簡直是個笑話(r=石頭 p=布 s=剪刀)", inline=False)
   embed.add_field(name=infor["prefix"]+"guess_meme", value="看你的迷因知識水準(全部英文小寫,空格請用_代替)" , inline=False)
+  embed.set_footer(text="笑死,居然還需要幫忙")
+  await ctx.send(embed=embed)
+@help.command()
+async def setting(ctx):
+  await ctx.channel.purge(limit=1)
+  embed=discord.Embed(title="CUTE_TURTLE使用說明書-setting篇", color=0x67ff5c)
+  embed.add_field(name=infor["prefix"]+"set_active_channel [channel id]", value="設定機器人平常跟你自動哈拉時要在哪裡哈拉", inline=True)
   embed.set_footer(text="笑死,居然還需要幫忙")
   await ctx.send(embed=embed)
 #更改預設的help指令
