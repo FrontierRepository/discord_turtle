@@ -13,7 +13,8 @@ class event(cog_extension):
         
         for x in gdata:
           if str(mg)==x:
-            channel = self.bot.get_channel(gdata[x])
+            if gdata[x]!= "None":
+              channel = self.bot.get_channel(gdata[x])
         
         await channel.send(">>"+str(member)+" join!")
     #在成員加入時發送訊息
@@ -26,7 +27,8 @@ class event(cog_extension):
 
       for x in gdata:
         if str(mg)==x:
-          channel = self.bot.get_channel(gdata[x])
+          if gdata[x]!= "None":
+            channel = self.bot.get_channel(gdata[x])
 
       await channel.send(">>"+str(member)+" leave!")
     #在成員離開時發送訊息
