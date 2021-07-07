@@ -57,11 +57,14 @@ class game(cog_extension):
   
   @commands.command()
   async def guess_meme(self,ctx):
-    self.lim=round(random.uniform(1,29))
-    self.count=0
+    self.maxium=0
     for x in meda:
+      self.maxium=self.maxium+1
+    self.lim=round(random.uniform(1,self.maxium))
+    self.count=0
+    for y in meda:
       if self.count<self.lim:
-        self.ans=x
+        self.ans=y
       self.count=self.count+1
     #隨機獲得圖片
     await ctx.send("這是哪個迷因")
