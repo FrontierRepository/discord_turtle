@@ -42,6 +42,7 @@ async def on_command_error(ctx, ero):
     await ctx.send("你連個指令都能輸錯")
   else:
     await ctx.send("尛?")
+    print(ero)
 #在接收指令出問題時做出回應
 
 @bot.group()
@@ -59,6 +60,8 @@ async def meme(ctx):
   embed=discord.Embed(title="CUTE_TURTLE使用說明書-meme篇", color=0x67ff5c)
   embed.add_field(name=infor["prefix"]+"drDisrespect", value="跑出Dr.Disrespect的圖案", inline=False)
   embed.add_field(name=infor["prefix"]+"rick_roll", value="讓你切身體驗被rick roll的感覺", inline=True)
+  embed.add_field(name=infor["prefix"]+"winnie", value="真可愛", inline=False)
+  embed.add_field(name=infor["prefix"]+"knock_knock", value="有人進來了", inline=False)
   embed.set_footer(text="笑死,居然還需要幫忙")
   await ctx.send(embed=embed)
 @help.command()
@@ -66,6 +69,7 @@ async def react(ctx):
   await ctx.channel.purge(limit=1)
   embed=discord.Embed(title="CUTE_TURTLE使用說明書-react篇", color=0x67ff5c)
   embed.add_field(name=infor["prefix"]+"hello", value="和你這個邊緣人say hello", inline=False)
+  embed.add_field(name=infor["prefix"]+"delete [number]", value="剛剛傳了怪怪的訊息嗎?用這個刪掉吧(only能管理訊息的人可以用)", inline=False)
   embed.set_footer(text="笑死,居然還需要幫忙")
   await ctx.send(embed=embed)
 @help.command()

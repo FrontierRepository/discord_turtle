@@ -35,8 +35,8 @@ class event(cog_extension):
 
     @commands.Cog.listener()
     async def on_message(self, msg):
-        if msg == "you know the rules":
-            await msg.channel.send("and so do I")
+        if msg.content == "https://www.youtube.com/watch?v=dQw4w9WgXcQ" or msg.content=="https://www.youtube.com/watch?v=xvFZjo5PgG0" or msg.content=="https://www.youtube.com/watch?v=QtBDL8EiNZo&t=15s" and msg.author!=self.bot.user:
+          await msg.channel.send("!!!警告!!!這可能是rick roll")
     #在偵測到特定訊息時回復
 
 def setup(bot):

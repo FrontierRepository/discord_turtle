@@ -5,6 +5,7 @@ from core.classes import cog_extension
 
 class setting(cog_extension):
   @commands.command()
+  @commands.has_permissions(administrator=True)
   async def set_active_channel(self, ctx, cid):
     with open("guildinfo.json", mode="r", encoding="utf-8") as file:
        gdata=json.load(file)
