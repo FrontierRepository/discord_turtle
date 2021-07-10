@@ -51,6 +51,7 @@ async def help(ctx):
   embed.add_field(name=infor["prefix"]+"help meme", value="查詢和迷因有關指令",inline=False)
   embed.add_field(name=infor["prefix"]+"help react", value="查詢和機器人搞~~人與人之間的連結~~,我是說互動的指令", inline=True)
   embed.add_field(name=infor["prefix"]+"help game", value="你確定要和我挑戰這些遊戲??", inline=False)
+  embed.add_field(name=infor["prefix"]+"help currency", value="查詢有關邪惡的經濟系統的指令", inline=False)
   embed.add_field(name=infor["prefix"]+"help setting", value="查詢設定這隻機器人的指令", inline=False)
   embed.set_footer(text="笑死,居然還需要幫忙")
   await ctx.send(embed=embed)
@@ -83,8 +84,17 @@ async def setting(ctx):
 async def game(ctx):
   await ctx.channel.purge(limit=1)
   embed=discord.Embed(title="CUTE_TURTLE使用說明書-game篇", color=0x67ff5c)
-  embed.add_field(name="8==D rps [your_choice]", value="和我這猜拳大師比簡直是個笑話(r=石頭 p=布 s=剪刀)", inline=False)
+  embed.add_field(name=infor["prefix"]+"rps [your_choice]", value="和我這猜拳大師比簡直是個笑話(r=石頭 p=布 s=剪刀)", inline=False)
   embed.add_field(name=infor["prefix"]+"guess_meme", value="看你的迷因知識水準(全部英文小寫,空格請用_代替)" , inline=False)
+  embed.set_footer(text="笑死,居然還需要幫忙")
+  await ctx.send(embed=embed)
+@help.command()
+async def currency(ctx):
+  await ctx.channel.purge(limit=1)
+  embed=discord.Embed(title="CUTE_TURTLE使用說明書-currency篇", color=0x67ff5c)
+  embed.add_field(name=infor["prefix"]+"create", value="創建一個閃亮亮的全新帳戶", inline=False)
+  embed.add_field(name=infor["prefix"]+"saving", value="看看你有多窮", inline=False)
+  embed.add_field(name=infor["prefix"]+"work", value="當個免費勞工,領22K", inline=False)
   embed.set_footer(text="笑死,居然還需要幫忙")
   await ctx.send(embed=embed)
 #更改預設的help指令
