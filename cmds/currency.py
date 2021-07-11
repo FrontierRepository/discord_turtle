@@ -68,7 +68,7 @@ class currency(cog_extension):
       return
     
     last_time=datetime.datetime.fromtimestamp(currency_data[have_account]["last_work"])
-    how_long_have_been=last_time-now_time
+    how_long_have_been=now_time-last_time
     thirty_minutes=datetime.timedelta(
       minutes=30
     )
@@ -84,6 +84,42 @@ class currency(cog_extension):
       return
     else:
       await ctx.send("修但幾列,你剛剛才工作ㄟ")
+    
+  @commands.command()
+  async def give(self ,ctx ,user_name, amount):
+    currency_data=take_data()
+    have_account=check_account(ctx.author.id, currency_data)
+    if have_account != False:
+      for member in ctx.guild.members:
+        if user_name == str(member)[:-5]:
+          have_account2=check_account(member.id, currency_data)
+          if have_account2 != False:
+            try:
+              give_total=int(amount)
+            except:
+              await ctx.send("啥時有這種數字了?")
+              return
+            else:
+              if give_total < 0:
+                await ctx.send("我不吃負數這套")
+                return
+              if give_total>currency_data[have_account]["money"]:
+                await ctx.send("你太窮了,交易不了")
+                return
+              currency_data[have_account]["money"]-=give_total
+              currency_data[have_account2]["money"]+=give_total
+              await ctx.send("成功交易"+amount+"元給"+user_name)
+              rewrite_data(currency_data)
+              return
+          else:
+            await ctx.send("對方尚未創建帳戶")
+            return
+        else:
+          pass
+      await ctx.send("這誰?")
+      return
+    await ctx.send("你尚未創建帳戶,輸入"+infor["prefix"]+"create來創建")
+    
 
     
     
