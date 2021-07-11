@@ -96,6 +96,7 @@ async def currency(ctx):
   embed.add_field(name=infor["prefix"]+"saving", value="看看你有多窮", inline=False)
   embed.add_field(name=infor["prefix"]+"work", value="當個免費勞工,領22K", inline=False)
   embed.add_field(name=infor["prefix"]+"give [user name] [amount]", value="公正,公平,公開der交易", inline=False)
+  embed.add_field(name=infor["prefix"]+"rob", value="當個搶匪去搶錢,先說,你可能會被抓到", inline=False)
   embed.set_footer(text="笑死,居然還需要幫忙")
   await ctx.send(embed=embed)
 #更改預設的help指令

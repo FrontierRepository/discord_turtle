@@ -24,6 +24,13 @@ def rewrite_data(data):
   with open("currency.json", mode="w",encoding="utf-8") as file:
     json.dump(data,file)
 
+def search_user_in_guild(user, member_list):
+  for member in member_list:
+    if user == str(member)[:-5]:
+      return member
+  return False
+
+
 class currency(cog_extension):
   @commands.command()
   async def create(self,ctx):
@@ -119,6 +126,45 @@ class currency(cog_extension):
       await ctx.send("這誰?")
       return
     await ctx.send("你尚未創建帳戶,輸入"+infor["prefix"]+"create來創建")
+
+  @commands.command()
+  async def rob(self, ctx, user_name):
+    currency_data=take_data()
+    have_account=check_account(ctx.author.id,currency_data)
+    if have_account != False:
+      have_member=search_user_in_guild(user_name, ctx.guild.members)
+      if have_member != False:
+        have_account2=check_account(have_member.id,currency_data)
+        if have_account2 != False:
+          member2_name=str(have_member)[:-5]
+          chance=random.uniform(1,10)
+          if chance >= 6:
+            randomF=random.uniform(100,400)
+            get=round(randomF)
+            currency_data[have_account]["money"]+=get
+            currency_data[have_account2]["money"]-=get
+            if currency_data[have_account2]["money"] < 0:
+              currency_data[have_account2]["money"]=0
+            await ctx.send("你成功從"+member2_name+"身上搶了"+str(get)+"元")
+            rewrite_data(currency_data)
+            return
+          else:
+            currency_data[have_account]["money"]-=500
+            currency_data[have_account2]["money"]+=500
+            if currency_data[have_account]["money"] < 0:
+              currency_data[have_account]["money"]=0
+            await ctx.send("你被抓到了,並且賠償"+member2_name+"500元")
+            rewrite_data(currency_data)
+            return
+        else:
+          await ctx.send("對方沒帳戶給你搶")
+          return
+      else:
+        await ctx.send("這誰?")
+        return
+    else:
+      await ctx.send("你尚未創建帳戶,輸入"+infor["prefix"]+"create來創建")
+
     
 
     
