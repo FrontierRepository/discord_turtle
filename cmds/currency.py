@@ -139,7 +139,7 @@ class currency(cog_extension):
           member2_name=str(have_member)[:-5]
           chance=random.uniform(1,10)
           if chance >= 6:
-            randomF=random.uniform(100,400)
+            randomF=random.uniform(300,700)
             get=round(randomF)
             currency_data[have_account]["money"]+=get
             currency_data[have_account2]["money"]-=get
