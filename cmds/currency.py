@@ -30,6 +30,7 @@ def search_user_in_guild(user, member_list):
       return member
   return False
 
+inventory={"doggy":100}
 
 class currency(cog_extension):
   @commands.command()
@@ -164,7 +165,39 @@ class currency(cog_extension):
         return
     else:
       await ctx.send("你尚未創建帳戶,輸入"+infor["prefix"]+"create來創建")
-
+  @commands.command()
+  async def shop(self, ctx):
+    embed=discord.Embed(title="SHOP", color=0x67ff5c)
+    embed.add_field(name="doggy  100$", value="一直可愛但沒啥用的狗勾", inline=False)
+    embed.set_footer(text="今天沒有特價ㄏㄏ")
+    await ctx.send(embed=embed)
+  
+  @commands.command()
+  async def buy(self, ctx, stuff):
+    currency_data=take_data()
+    have_account=check_account(ctx.author.id,currency_data)
+    if have_account == False:
+      await ctx.send("你尚未創建帳戶,輸入"+infor["prefix"]+"create來創建")
+      return
+    for x in inventory:
+      if stuff == x:
+        if inventory[x] > currency_data[have_account]["money"]:
+          await ctx.send("你太窮了,買不起")
+          return
+        for y in currency_data[have_account]["inventory"]:
+          if y == stuff:
+            currency_data[have_account]["inventory"][stuff]+=1
+            currency_data[have_account]["money"]-=inventory[x]
+            rewrite_data(currency_data)
+            await ctx.send("購買成功")
+            return
+        currency_data[have_account]["inventory"][stuff]=1
+        currency_data[have_account]["money"]-=inventory[x]
+        rewrite_data(currency_data)
+        await ctx.send("購買成功")
+        return
+    await ctx.send("這啥?")
+        
     
 
     
