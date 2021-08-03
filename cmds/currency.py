@@ -10,7 +10,7 @@ with open("infor.json", mode="r", encoding="utf-8") as file:
   infor=json.load(file)
 
 def take_data():
-  with open("currency.json", mode="r", encoding="utf-8") as file:
+  with open("data.currency.json", mode="r", encoding="utf-8") as file:
     data=json.load(file)
   return data
 
@@ -197,6 +197,26 @@ class currency(cog_extension):
         await ctx.send("購買成功")
         return
     await ctx.send("這啥?")
+
+  @commands.command()
+  async def stuff(self, ctx, stuff):
+    currency_data=take_data()
+    have_account=check_account(ctx.author.id,currency_data)
+    if have_account == False:
+      await ctx.send("你尚未創建帳戶,輸入"+infor["prefix"]+"create來創建")
+      return
+    for x in inventory:
+      if stuff == x:
+        for y in currency_data[have_account]["inventory"]:
+          if stuff == y:
+            if currency_data[have_account]["inventory"][stuff] == 0:
+              await ctx.send("你沒有這個東西")
+              return
+            await ctx.send("你有"+str(currency_data[have_account]["inventory"][stuff])+"個"+stuff)
+            return
+        await ctx.send("你沒有這個東西")
+        return
+      await ctx.send("有這東西?")
         
     
 

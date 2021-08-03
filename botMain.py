@@ -4,7 +4,7 @@ import json
 import os
 import keep_alive
 with open("infor.json", mode="r", encoding="utf-8") as file:
-    infor=json.load(file)
+  infor=json.load(file)
 
 intents=discord.Intents.all()
 bot=commands.Bot(command_prefix=infor["prefix"], intents=intents)
