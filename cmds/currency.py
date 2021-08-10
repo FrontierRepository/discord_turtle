@@ -41,8 +41,7 @@ class currency(cog_extension):
         await ctx.send("你已經創建過帳戶")
         return
     currency_data[ctx.author.id]={"money":0,"inventory":{},"last_work":"First"}
-    with open("currency.json", mode="w", encoding="utf-8") as file:
-      json.dump(currency_data, file)
+    rewrite_data(currency_data)
     await ctx.send("帳戶創建成功")
   #創建帳戶
   

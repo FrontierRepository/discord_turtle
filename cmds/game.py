@@ -113,7 +113,7 @@ class game(cog_extension):
     for role in ctx.guild.roles:
       if role.name=="@everyone":
         await channel1.set_permissions(role,view_channel=False)
-        await channel1.set_permissions(role,view_channel=False)
+        await channel2.set_permissions(role,view_channel=False)
 
     for member in ctx.guild.members:
       if member==user1:
@@ -133,7 +133,7 @@ class game(cog_extension):
     
     try:
       p1msg=await self.bot.wait_for(event="message", check=check2, timeout=10)
-    except asyncio.timeoutError:
+    except asyncio.TimeoutError:
       await channel1.send("等待過久,你棄權了")
       await channel2.send("對方棄權了")
       return
@@ -163,7 +163,7 @@ class game(cog_extension):
       return m.channel==channel2
     try:
       p2msg=await self.bot.wait_for(event="message", check=check3, timeout=10)
-    except asyncio.timeoutError:
+    except asyncio.TimeoutError:
       await channel2.send("等待過久,你棄權了")
       await channel1.send("對方棄權了")
       await asyncio.sleep(5)
@@ -197,7 +197,7 @@ class game(cog_extension):
 
       try:
         p1msg2=await self.bot.wait_for(event="message", check=check2, timeout=10)
-      except asyncio.timeoutError:
+      except asyncio.TimeoutError:
         await channel1.send("等待過久,你棄權了")
         await channel2.send("對方棄權了")
         await asyncio.sleep(5)
@@ -231,6 +231,7 @@ class game(cog_extension):
           winner="p1"
       else:
         await channel1.send("失誤")
+        await channel2.send("對方攻擊:"+str(p1atc))
         await channel2.send("對方失誤")
       
       await channel2.send("請選擇要攻擊的位置")
@@ -238,7 +239,7 @@ class game(cog_extension):
 
       try:
         p2msg2=await self.bot.wait_for(event="message", check=check3, timeout=10)
-      except asyncio.timeoutError:
+      except asyncio.TimeoutError:
         await channel2.send("等待過久,你棄權了")
         await channel1.send("對方棄權了")
         return
@@ -269,6 +270,7 @@ class game(cog_extension):
           winner="p2"
       else:
         await channel2.send("失誤")
+        await channel1.send("對方攻擊:"+str(p2atc))
         await channel1.send("對方失誤")
 
       count+=1
