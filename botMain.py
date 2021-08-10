@@ -3,13 +3,14 @@ from discord.ext import commands
 import json
 import os
 import keep_alive
-with open("infor.json", mode="r", encoding="utf-8") as file:
+with open("./data/infor.json", mode="r", encoding="utf-8") as file:
   infor=json.load(file)
 
 intents=discord.Intents.all()
 bot=commands.Bot(command_prefix=infor["prefix"], intents=intents)
 
 bot.remove_command("help")
+
 
 @bot.event
 async def on_ready():
@@ -87,6 +88,7 @@ async def game(ctx):
   embed=discord.Embed(title="CUTE_TURTLE使用說明書-game篇", color=0x67ff5c)
   embed.add_field(name=infor["prefix"]+"rps [your_choice]", value="和我這猜拳大師比簡直是個笑話(r=石頭 p=布 s=剪刀)", inline=False)
   embed.add_field(name=infor["prefix"]+"guess_meme", value="看你的迷因知識水準(全部英文小寫,空格請用_代替)" , inline=False)
+  embed.add_field(name=infor["prefix"]+"war_ship", value="和其他人一同玩戰艦世界" , inline=False)
   embed.set_footer(text="笑死,居然還需要幫忙")
   await ctx.send(embed=embed)
 @help.command()
@@ -105,8 +107,8 @@ async def currency(ctx):
 #更改預設的help指令
 
 for Filename in os.listdir("./cmds"):
-    if Filename.endswith(".py"):
-        bot.load_extension("cmds."+str(Filename[:-3]))
+  if Filename.endswith(".py"):
+    bot.load_extension("cmds."+str(Filename[:-3]))
 
 if __name__ == "__main__":
   keep_alive.keep_alive()

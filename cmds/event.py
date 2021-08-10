@@ -6,7 +6,7 @@ from core.classes import cog_extension
 class event(cog_extension):
     @commands.Cog.listener()
     async def on_member_join(self, member):  
-        with open("guildinfo.json", mode="r",encoding="utf-8") as file:
+        with open("./data/guildinfo.json", mode="r",encoding="utf-8") as file:
           gdata=json.load(file)
         
         mg=member.guild.id
@@ -20,7 +20,7 @@ class event(cog_extension):
     #在成員加入時發送訊息
     @commands.Cog.listener()
     async def on_member_remove(self, member):
-      with open("guildinfo.json", mode="r",encoding="utf-8") as file:
+      with open("./data/guildinfo.json", mode="r",encoding="utf-8") as file:
           gdata=json.load(file)
         
       mg=member.guild.id

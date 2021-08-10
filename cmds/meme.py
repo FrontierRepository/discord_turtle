@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 import json
-with open("infor.json", mode="r", encoding="utf-8") as file:
+with open("./data/infor.json", mode="r", encoding="utf-8") as file:
     infor=json.load(file)
 
 from core.classes import cog_extension

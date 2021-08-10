@@ -6,11 +6,11 @@ import random
 from discord.ext import commands
 from core.classes import cog_extension
 
-with open("infor.json", mode="r", encoding="utf-8") as file:
+with open("./data/infor.json", mode="r", encoding="utf-8") as file:
   infor=json.load(file)
 
 def take_data():
-  with open("data.currency.json", mode="r", encoding="utf-8") as file:
+  with open("./data/currency.json", mode="r", encoding="utf-8") as file:
     data=json.load(file)
   return data
 
@@ -21,7 +21,7 @@ def check_account(id, data):
   return False 
 
 def rewrite_data(data):
-  with open("currency.json", mode="w",encoding="utf-8") as file:
+  with open("./data/currency.json", mode="w",encoding="utf-8") as file:
     json.dump(data,file)
 
 def search_user_in_guild(user, member_list):
