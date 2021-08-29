@@ -2,6 +2,8 @@ import discord
 import random
 import asyncio
 import sys
+import requests
+import json
 from discord.ext import commands
 
 from core.classes import cog_extension
@@ -27,6 +29,20 @@ class react(cog_extension):
     async def role_list(self,ctx):
       for role in ctx.guild.roles:
         await ctx.send(role.name) 
+
+    @commands.command()
+    async def test(self, ctx):
+      response=requests.get("https://getpantry.cloud/apiv1/pantry/4feb1fac-6e16-4e25-9b43-12d4a2b7df5e/basket/discord_frontierguard")
+
+      data=response.json()
+      print(data["record"])
+
+      data["disisnew"]="see_its_new"
+
+      update=requests.put("https://getpantry.cloud/apiv1/pantry/4feb1fac-6e16-4e25-9b43-12d4a2b7df5e/basket/discord_frontierguard",json=data)
+
+      print(update)
+
 
 
 def setup(bot):

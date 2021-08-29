@@ -3,11 +3,20 @@ import json
 import time
 import datetime
 import random
+import requests
 from discord.ext import commands
 from core.classes import cog_extension
 
 with open("./data/infor.json", mode="r", encoding="utf-8") as file:
   infor=json.load(file)
+
+def take_cloud_data():
+  response=requests.get("https://getpantry.cloud/apiv1/pantry/4feb1fac-6e16-4e25-9b43-12d4a2b7df5e/basket/discord_frontierguard")
+  data=response.json()
+  return data
+
+def rewrite_cloud_data(data):
+  update=requests.put("https://getpantry.cloud/apiv1/pantry/4feb1fac-6e16-4e25-9b43-12d4a2b7df5e/basket/discord_frontierguard",json=data)
 
 def take_data():
   with open("./data/currency.json", mode="r", encoding="utf-8") as file:

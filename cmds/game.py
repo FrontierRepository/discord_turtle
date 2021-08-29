@@ -121,8 +121,8 @@ class game(cog_extension):
       if member==user2:
         await channel2.set_permissions(member,view_channel=True)
     
-    await channel1.send("遊戲開始")
-    await channel2.send("遊戲開始")
+    await channel1.send("遊戲開始"+user1.mention)
+    await channel2.send("遊戲開始"+user2.mention)
     await channel1.send(infor["25"])
     await channel2.send(infor["25"])
     await channel1.send("請選擇船艦擺設的位置")
@@ -136,6 +136,9 @@ class game(cog_extension):
     except asyncio.TimeoutError:
       await channel1.send("等待過久,你棄權了")
       await channel2.send("對方棄權了")
+      await asyncio.sleep(5)
+      await channel1.delete()
+      await channel2.delete()
       return
     else:
       try:
@@ -143,7 +146,7 @@ class game(cog_extension):
       except:
         await channel1.send("輸入格式錯誤,你棄權了")
         await channel2.send("對方棄權了")
-        asyncio.sleep(5)
+        await asyncio.sleep(5)
         await channel1.delete()
         await channel2.delete()
         return
@@ -176,7 +179,7 @@ class game(cog_extension):
       except:
         await channel1.send("輸入格式錯誤,你棄權了")
         await channel2.send("對方棄權了")
-        asyncio.sleep(5)
+        await asyncio.sleep(5)
         await channel1.delete()
         await channel2.delete()
         return
@@ -210,7 +213,7 @@ class game(cog_extension):
         except:
           await channel1.send("輸入格式錯誤,你棄權了")
           await channel2.send("對方棄權了")
-          asyncio.sleep(5)
+          await asyncio.sleep(5)
           await channel1.delete()
           await channel2.delete()
           return

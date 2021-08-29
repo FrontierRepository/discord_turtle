@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import json
 import os
+import keep_alive
 with open("./data/infor.json", mode="r", encoding="utf-8") as file:
   infor=json.load(file)
 
@@ -46,7 +47,7 @@ async def on_command_error(ctx, ero):
     print(ero)
 #在接收指令出問題時做出回應
 
-@bot.group()
+@bot.group(invoke_without_command=True)
 async def help(ctx):
   embed=discord.Embed(title="CUTE_TURTLE使用說明書", color=0x67ff5c)
   embed.add_field(name=infor["prefix"]+"help meme", value="查詢和迷因有關指令",inline=False)
@@ -58,7 +59,6 @@ async def help(ctx):
   await ctx.send(embed=embed)
 @help.command()
 async def meme(ctx):
-  await ctx.channel.purge(limit=1)
   embed=discord.Embed(title="CUTE_TURTLE使用說明書-meme篇", color=0x67ff5c)
   embed.add_field(name=infor["prefix"]+"drDisrespect", value="跑出Dr.Disrespect的圖案", inline=False)
   embed.add_field(name=infor["prefix"]+"rick_roll", value="讓你切身體驗被rick roll的感覺", inline=True)
@@ -68,7 +68,6 @@ async def meme(ctx):
   await ctx.send(embed=embed)
 @help.command()
 async def react(ctx):
-  await ctx.channel.purge(limit=1)
   embed=discord.Embed(title="CUTE_TURTLE使用說明書-react篇", color=0x67ff5c)
   embed.add_field(name=infor["prefix"]+"hello", value="和你這個邊緣人say hello", inline=False)
   embed.add_field(name=infor["prefix"]+"delete [number]", value="剛剛傳了怪怪的訊息嗎?用這個刪掉吧(only能管理訊息的人可以用)", inline=False)
@@ -76,14 +75,12 @@ async def react(ctx):
   await ctx.send(embed=embed)
 @help.command()
 async def setting(ctx):
-  await ctx.channel.purge(limit=1)
   embed=discord.Embed(title="CUTE_TURTLE使用說明書-setting篇", color=0x67ff5c)
   embed.add_field(name=infor["prefix"]+"set_active_channel [channel id]", value="設定機器人平常跟你自動哈拉時要在哪裡哈拉", inline=True)
   embed.set_footer(text="笑死,居然還需要幫忙")
   await ctx.send(embed=embed)
 @help.command()
 async def game(ctx):
-  await ctx.channel.purge(limit=1)
   embed=discord.Embed(title="CUTE_TURTLE使用說明書-game篇", color=0x67ff5c)
   embed.add_field(name=infor["prefix"]+"rps [your_choice]", value="和我這猜拳大師比簡直是個笑話(r=石頭 p=布 s=剪刀)", inline=False)
   embed.add_field(name=infor["prefix"]+"guess_meme", value="看你的迷因知識水準(全部英文小寫,空格請用_代替)" , inline=False)
@@ -92,7 +89,6 @@ async def game(ctx):
   await ctx.send(embed=embed)
 @help.command()
 async def currency(ctx):
-  await ctx.channel.purge(limit=1)
   embed=discord.Embed(title="CUTE_TURTLE使用說明書-currency篇", color=0x67ff5c)
   embed.add_field(name=infor["prefix"]+"create", value="創建一個閃亮亮的全新帳戶", inline=False)
   embed.add_field(name=infor["prefix"]+"saving", value="看看你有多窮", inline=False)
@@ -110,4 +106,5 @@ for Filename in os.listdir("./cmds"):
     bot.load_extension("cmds."+str(Filename[:-3]))
 
 if __name__ == "__main__":
+  keep_alive.keep_alive()
   bot.run(infor["token"])
