@@ -2,7 +2,6 @@ import discord
 from discord.ext import commands
 import json
 import os
-import keep_alive
 with open("./data/infor.json", mode="r", encoding="utf-8") as file:
   infor=json.load(file)
 
@@ -106,5 +105,4 @@ for Filename in os.listdir("./cmds"):
     bot.load_extension("cmds."+str(Filename[:-3]))
 
 if __name__ == "__main__":
-  keep_alive.keep_alive()
   bot.run(infor["token"])
