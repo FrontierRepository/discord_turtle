@@ -11,12 +11,12 @@ with open("./data/infor.json", mode="r", encoding="utf-8") as file:
   infor=json.load(file)
 
 def take_cloud_data():
-  response=requests.get("https://getpantry.cloud/apiv1/pantry/4feb1fac-6e16-4e25-9b43-12d4a2b7df5e/basket/discord_frontierguard")
+  response=requests.get("https://getpantry.cloud/apiv1/pantry/d214bda5-05ac-4723-8eb2-82176049788a/basket/CF")
   data=response.json()
   return data
 
 def rewrite_cloud_data(data):
-  update=requests.put("https://getpantry.cloud/apiv1/pantry/4feb1fac-6e16-4e25-9b43-12d4a2b7df5e/basket/discord_frontierguard",json=data)
+  update=requests.put("https://getpantry.cloud/apiv1/pantry/d214bda5-05ac-4723-8eb2-82176049788a/basket/CF",json=data)
 
 def take_data():
   with open("./data/currency.json", mode="r", encoding="utf-8") as file:
@@ -225,6 +225,27 @@ class currency(cog_extension):
         await ctx.send("你沒有這個東西")
         return
       await ctx.send("有這東西?")
+
+  @commands.command()
+  async def inter(self, ctx, amount):
+    data=take_data()
+    cloud_data=take_cloud_data()
+    money=int(amount)
+    have_account=check_account(ctx.author.id,data)
+    if have_account == False:
+      await ctx.send("你尚未創建帳戶,輸入"+infor["prefix"]+"create來創建")
+      return
+    if data[have_account]["money"]<=money+15:
+      await ctx.send("您的帳戶存款不夠進行跨行轉帳")
+      return
+    data[have_account]["money"]=data[have_account]["money"]-money-15
+    cloud_data["CtoF"][str(ctx.author.id)]=money
+    rewrite_data(data)
+    rewrite_cloud_data(cloud_data)
+    await ctx.send("成功轉帳"+str(money)+"元(手續費15元)")
+    
+    
+
         
     
 

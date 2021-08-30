@@ -1,7 +1,16 @@
 import discord
 import json
+import cv2 as cv
+import numpy as np
+import os
 from discord.ext import commands
 from core.classes import cog_extension
+
+def rescale(frame, scale=0.75):
+    width = int(frame.shape[1]*scale)
+    hieght = int(frame.shape[0]*scale)
+    dimensions = (width, hieght)
+    return cv.resize(frame, dimensions, interpolation=cv.INTER_AREA)
 
 class event(cog_extension):
     @commands.Cog.listener()
@@ -10,6 +19,11 @@ class event(cog_extension):
           gdata=json.load(file)
         
         mg=member.guild.id
+
+        img=cv.imread("./img/mickeysuicide.jpg")
+        cv.putText(img, "welcome "+member.name, (0,50), cv.FONT_HERSHEY_TRIPLEX, 1.0, (0,225,100), 1)
+        cv.imwrite("./img/output.jpg",img)
+        file=discord.File("./img/output.jpg")
         
         for x in gdata:
           if str(mg)==x:
@@ -17,6 +31,9 @@ class event(cog_extension):
               channel = self.bot.get_channel(gdata[x])
         
         await channel.send(">>"+str(member)+" join!")
+        await channel.send(file=file)
+        
+        os.remove("./img/output.jpg")
     #在成員加入時發送訊息
     @commands.Cog.listener()
     async def on_member_remove(self, member):
