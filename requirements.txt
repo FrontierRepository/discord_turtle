@@ -1,4 +1,3 @@
-requests==2.26.0
 opencv-contrib-python==4.5.3.56
 caer==1.9.8
 aiohttp==3.7.4.post0
