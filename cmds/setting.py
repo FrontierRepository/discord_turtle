@@ -1,4 +1,5 @@
 import discord
+import requests
 import json
 from discord.ext import commands
 from core.classes import cog_extension
@@ -6,8 +7,8 @@ from core.classes import cog_extension
 language_list=("zhtw","en")
 
 def language(id):
-  with open("./data/guildinfo.json",mode="r",encoding="utf-8") as file:
-    gdif=json.load(file)
+  response=requests.get("https://getpantry.cloud/apiv1/pantry/01865685-19e7-4f85-9aa8-d8da22683475/basket/cute_turtle_guildinfo")
+  gdif=response.json()
 
   with open("./data/localization_pack.json",mode="r",encoding="utf-8") as data:
     lanpak=json.load(data)
@@ -22,8 +23,8 @@ class setting(cog_extension):
   @commands.command()
   @commands.has_permissions(administrator=True)
   async def set_active_channel(self, ctx, cid):
-    with open("./data/guildinfo.json", mode="r", encoding="utf-8") as file:
-       gdata=json.load(file)
+    response=requests.get("https://getpantry.cloud/apiv1/pantry/01865685-19e7-4f85-9aa8-d8da22683475/basket/cute_turtle_guildinfo")
+    gdata=response.json()
     have_data=False
     for x in gdata:
       if x==str(ctx.guild.id):
@@ -36,8 +37,7 @@ class setting(cog_extension):
     if have_data==False:
       gdata[str(ctx.guild.id)]={"id":int(cid),"lan":"zhtw"}
 
-    with open("./data/guildinfo.json", mode="w", encoding="utf-8") as file:
-      json.dump(gdata, file)
+    update=requests.post("https://getpantry.cloud/apiv1/pantry/01865685-19e7-4f85-9aa8-d8da22683475/basket/cute_turtle_guildinfo",json=gdata)
     if cid == "0":
       await ctx.send("successfully cancel the active channel")
     else:
@@ -47,8 +47,8 @@ class setting(cog_extension):
   @commands.has_permissions(administrator=True)
   async def language(self, ctx, lan):
     pack=language(ctx.guild.id)
-    with open("./data/guildinfo.json",mode="r",encoding="utf-8") as file:
-      data=json.load(file)
+    response=requests.get("https://getpantry.cloud/apiv1/pantry/01865685-19e7-4f85-9aa8-d8da22683475/basket/cute_turtle_guildinfo")
+    data=response.json()
     
     have_account=False
 
@@ -64,8 +64,7 @@ class setting(cog_extension):
     if have_account==False:
       data[str(ctx.guild.id)]={"id":"None","lan":lan}
 
-    with open("./data/guildinfo.json", mode="w", encoding="utf-8") as file:
-      json.dump(data, file)
+    update=requests.post("https://getpantry.cloud/apiv1/pantry/01865685-19e7-4f85-9aa8-d8da22683475/basket/cute_turtle_guildinfo",json=data)
 
 def setup(bot):
   bot.add_cog(setting(bot))

@@ -3,6 +3,7 @@ import random
 import asyncio
 import json
 import os
+import requests
 
 from discord.ext import commands
 
@@ -41,8 +42,8 @@ def jm(plyr,ai,ero):
 #和猜拳相關的函式
 
 def language(id):
-  with open("./data/guildinfo.json",mode="r",encoding="utf-8") as file:
-    gdif=json.load(file)
+  response=requests.get("https://getpantry.cloud/apiv1/pantry/01865685-19e7-4f85-9aa8-d8da22683475/basket/cute_turtle_guildinfo")
+  gdif=response.json()
 
   with open("./data/localization_pack.json",mode="r",encoding="utf-8") as data:
     lanpak=json.load(data)

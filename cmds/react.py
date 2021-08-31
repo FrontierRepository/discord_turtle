@@ -9,8 +9,8 @@ from discord.ext import commands
 from core.classes import cog_extension
 
 def language(id):
-  with open("./data/guildinfo.json",mode="r",encoding="utf-8") as file:
-    gdif=json.load(file)
+  response=requests.get("https://getpantry.cloud/apiv1/pantry/01865685-19e7-4f85-9aa8-d8da22683475/basket/cute_turtle_guildinfo")
+  gdif=response.json()
 
   with open("./data/localization_pack.json",mode="r",encoding="utf-8") as data:
     lanpak=json.load(data)
@@ -56,8 +56,9 @@ class react(cog_extension):
       with open("./data/guildinfo.json", mode="r", encoding="utf") as file:
         data=json.load(file)
       for x in data:
-        channel=self.bot.get_channel(data[x]["id"])
-        await channel.send(msg)
+        if data[x]["id"]!="None":
+          channel=self.bot.get_channel(data[x]["id"])
+          await channel.send(msg)
 
 
 

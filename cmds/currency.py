@@ -16,11 +16,11 @@ def take_cloud_data():
   return data
 
 def rewrite_cloud_data(data):
-  update=requests.put("https://getpantry.cloud/apiv1/pantry/d214bda5-05ac-4723-8eb2-82176049788a/basket/CF",json=data)
+  update=requests.post("https://getpantry.cloud/apiv1/pantry/d214bda5-05ac-4723-8eb2-82176049788a/basket/CF",json=data)
 
 def take_data():
-  with open("./data/currency.json", mode="r", encoding="utf-8") as file:
-    data=json.load(file)
+  response=requests.get("https://getpantry.cloud/apiv1/pantry/d26176a1-04a8-42ce-a714-0e40e58b2801/basket/cute_turtle_currency")
+  data=response.json()
   return data
 
 def check_account(id, data):
@@ -30,8 +30,7 @@ def check_account(id, data):
   return False 
 
 def rewrite_data(data):
-  with open("./data/currency.json", mode="w",encoding="utf-8") as file:
-    json.dump(data,file)
+  update=requests.post("https://getpantry.cloud/apiv1/pantry/d26176a1-04a8-42ce-a714-0e40e58b2801/basket/cute_turtle_currency",json=data)
 
 def search_user_in_guild(user, member_list):
   for member in member_list:
@@ -40,8 +39,8 @@ def search_user_in_guild(user, member_list):
   return False
 
 def language(id):
-  with open("./data/guildinfo.json",mode="r",encoding="utf-8") as file:
-    gdif=json.load(file)
+  response=requests.get("https://getpantry.cloud/apiv1/pantry/01865685-19e7-4f85-9aa8-d8da22683475/basket/cute_turtle_guildinfo")
+  gdif=response.json()
 
   with open("./data/localization_pack.json",mode="r",encoding="utf-8") as data:
     lanpak=json.load(data)

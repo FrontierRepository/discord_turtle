@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import json
 import os
+import requests
 with open("./data/infor.json", mode="r", encoding="utf-8") as file:
   infor=json.load(file)
 
@@ -10,6 +11,18 @@ bot=commands.Bot(command_prefix=infor["prefix"], intents=intents)
 
 bot.remove_command("help")
 
+def language(id):
+  response=requests.get("https://getpantry.cloud/apiv1/pantry/01865685-19e7-4f85-9aa8-d8da22683475/basket/cute_turtle_guildinfo")
+  gdif=response.json()
+
+  with open("./data/localization_pack.json",mode="r",encoding="utf-8") as data:
+    lanpak=json.load(data)
+
+  for x in gdif:
+    if x == str(id):
+      lan=gdif[x]["lan"]
+      return lanpak[lan]
+  return lanpak["zhtw"]
 
 @bot.event
 async def on_ready():
@@ -37,68 +50,76 @@ async def reload(ctx, extension):
 
 @bot.event
 async def on_command_error(ctx, ero):
+  lan=language(ctx.guild.id)
   if isinstance(ero, commands.errors.MissingRequiredArgument):
-    await ctx.send("你還敢不把參數輸完整R")
+    await ctx.send(lan["main"]["1"])
   elif isinstance(ero, commands.errors.CommandNotFound):
-    await ctx.send("你連個指令都能輸錯")
+    await ctx.send(lan["main"]["2"])
   elif isinstance(ero, commands.errors.MissingPermissions):
-    await ctx.send("你缺少必要權限")
+    await ctx.send(lan["main"]["3"])
   else:
-    await ctx.send("尛?")
+    await ctx.send(lan["main"]["4"])
     print(ero)
 #在接收指令出問題時做出回應
 
 @bot.group(invoke_without_command=True)
 async def help(ctx):
-  embed=discord.Embed(title="CUTE_TURTLE使用說明書", color=0x67ff5c)
-  embed.add_field(name=infor["prefix"]+"help meme", value="查詢和迷因有關指令",inline=False)
-  embed.add_field(name=infor["prefix"]+"help react", value="查詢和機器人搞~~人與人之間的連結~~,我是說互動的指令", inline=True)
-  embed.add_field(name=infor["prefix"]+"help game", value="你確定要和我挑戰這些遊戲??", inline=False)
-  embed.add_field(name=infor["prefix"]+"help currency", value="查詢有關邪惡的經濟系統的指令", inline=False)
-  embed.add_field(name=infor["prefix"]+"help setting", value="查詢設定這隻機器人的指令", inline=False)
-  embed.set_footer(text="笑死,居然還需要幫忙")
+  lan=language(ctx.guild.id)
+  embed=discord.Embed(title=lan["main"]["5"], color=0x67ff5c)
+  embed.add_field(name=infor["prefix"]+"help meme", value=lan["main"]["6"],inline=False)
+  embed.add_field(name=infor["prefix"]+"help react", value=lan["main"]["7"], inline=True)
+  embed.add_field(name=infor["prefix"]+"help game", value=lan["main"]["8"], inline=False)
+  embed.add_field(name=infor["prefix"]+"help currency", value=lan["main"]["9"], inline=False)
+  embed.add_field(name=infor["prefix"]+"help setting", value=lan["main"]["10"], inline=False)
+  embed.set_footer(text=lan["main"]["11"])
   await ctx.send(embed=embed)
 @help.command()
 async def meme(ctx):
-  embed=discord.Embed(title="CUTE_TURTLE使用說明書-meme篇", color=0x67ff5c)
-  embed.add_field(name=infor["prefix"]+"drDisrespect", value="跑出Dr.Disrespect的圖案", inline=False)
-  embed.add_field(name=infor["prefix"]+"rick_roll", value="讓你切身體驗被rick roll的感覺", inline=True)
-  embed.add_field(name=infor["prefix"]+"winnie", value="真可愛", inline=False)
-  embed.add_field(name=infor["prefix"]+"knock_knock", value="有人進來了", inline=False)
-  embed.set_footer(text="笑死,居然還需要幫忙")
+  lan=language(ctx.guild.id)
+  embed=discord.Embed(title=lan["main"]["12"], color=0x67ff5c)
+  embed.add_field(name=infor["prefix"]+"drDisrespect", value=lan["main"]["13"], inline=False)
+  embed.add_field(name=infor["prefix"]+"rick_roll", value=lan["main"]["14"], inline=True)
+  embed.add_field(name=infor["prefix"]+"winnie", value=lan["main"]["15"], inline=False)
+  embed.add_field(name=infor["prefix"]+"knock_knock", value=lan["main"]["16"], inline=False)
+  embed.set_footer(text=lan["main"]["11"])
   await ctx.send(embed=embed)
 @help.command()
 async def react(ctx):
-  embed=discord.Embed(title="CUTE_TURTLE使用說明書-react篇", color=0x67ff5c)
-  embed.add_field(name=infor["prefix"]+"hello", value="和你這個邊緣人say hello", inline=False)
-  embed.add_field(name=infor["prefix"]+"delete [number]", value="剛剛傳了怪怪的訊息嗎?用這個刪掉吧(only能管理訊息的人可以用)", inline=False)
-  embed.set_footer(text="笑死,居然還需要幫忙")
+  lan=language(ctx.guild.id)
+  embed=discord.Embed(title=lan["main"]["17"], color=0x67ff5c)
+  embed.add_field(name=infor["prefix"]+"hello", value=lan["main"]["18"], inline=False)
+  embed.add_field(name=infor["prefix"]+"delete [number]", value=lan["main"]["19"], inline=False)
+  embed.set_footer(text=lan["main"]["11"])
   await ctx.send(embed=embed)
 @help.command()
 async def setting(ctx):
-  embed=discord.Embed(title="CUTE_TURTLE使用說明書-setting篇", color=0x67ff5c)
-  embed.add_field(name=infor["prefix"]+"set_active_channel [channel id]", value="設定機器人平常跟你自動哈拉時要在哪裡哈拉", inline=True)
+  lan=language(ctx.guild.id)
+  embed=discord.Embed(title=lan["main"]["20"], color=0x67ff5c)
+  embed.add_field(name=infor["prefix"]+"set_active_channel [channel id]", value=lan["main"]["21"], inline=False)
+  embed.add_field(name=infor["prefix"]+"language [language]", value=lan["main"]["22"]+":zhtw,en",inline=False)
   embed.set_footer(text="笑死,居然還需要幫忙")
   await ctx.send(embed=embed)
 @help.command()
 async def game(ctx):
-  embed=discord.Embed(title="CUTE_TURTLE使用說明書-game篇", color=0x67ff5c)
-  embed.add_field(name=infor["prefix"]+"rps [your_choice]", value="和我這猜拳大師比簡直是個笑話(r=石頭 p=布 s=剪刀)", inline=False)
-  embed.add_field(name=infor["prefix"]+"guess_meme", value="看你的迷因知識水準(全部英文小寫,空格請用_代替)" , inline=False)
-  embed.add_field(name=infor["prefix"]+"war_ship", value="和其他人一同玩戰艦世界" , inline=False)
-  embed.set_footer(text="笑死,居然還需要幫忙")
+  lan=language(ctx.guild.id)
+  embed=discord.Embed(title=lan["main"]["24"], color=0x67ff5c)
+  embed.add_field(name=infor["prefix"]+"rps [your_choice]", value=lan["main"]["25"], inline=False)
+  embed.add_field(name=infor["prefix"]+"guess_meme", value=lan["main"]["26"] , inline=False)
+  embed.add_field(name=infor["prefix"]+"war_ship", value=lan["main"]["27"] , inline=False)
+  embed.set_footer(text=lan["main"]["11"])
   await ctx.send(embed=embed)
 @help.command()
 async def currency(ctx):
-  embed=discord.Embed(title="CUTE_TURTLE使用說明書-currency篇", color=0x67ff5c)
-  embed.add_field(name=infor["prefix"]+"create", value="創建一個閃亮亮的全新帳戶", inline=False)
-  embed.add_field(name=infor["prefix"]+"saving", value="看看你有多窮", inline=False)
-  embed.add_field(name=infor["prefix"]+"work", value="當個免費勞工,領22K", inline=False)
-  embed.add_field(name=infor["prefix"]+"give [user name] [amount]", value="公正,公平,公開der交易", inline=False)
-  embed.add_field(name=infor["prefix"]+"rob", value="當個搶匪去搶錢,先說,你可能會被抓到", inline=False)
-  embed.add_field(name=infor["prefix"]+"shop", value="幫你列出商品清單", inline=False)
-  embed.add_field(name=infor["prefix"]+"buy [stuff]", value="買東西囉", inline=False)
-  embed.set_footer(text="笑死,居然還需要幫忙")
+  lan=language(ctx.guild.id)
+  embed=discord.Embed(title=lan["main"]["28"], color=0x67ff5c)
+  embed.add_field(name=infor["prefix"]+"create", value=lan["main"]["29"], inline=False)
+  embed.add_field(name=infor["prefix"]+"saving", value=lan["main"]["30"], inline=False)
+  embed.add_field(name=infor["prefix"]+"work", value=lan["main"]["31"], inline=False)
+  embed.add_field(name=infor["prefix"]+"give [user name] [amount]", value=lan["main"]["32"], inline=False)
+  embed.add_field(name=infor["prefix"]+"rob", value=lan["main"]["33"], inline=False)
+  embed.add_field(name=infor["prefix"]+"shop", value=lan["main"]["34"], inline=False)
+  embed.add_field(name=infor["prefix"]+"buy [stuff]", value=lan["main"]["35"], inline=False)
+  embed.set_footer(text=lan["main"]["11"])
   await ctx.send(embed=embed)
 #更改預設的help指令
 
