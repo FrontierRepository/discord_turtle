@@ -24,10 +24,18 @@ class setting(cog_extension):
   async def set_active_channel(self, ctx, cid):
     with open("./data/guildinfo.json", mode="r", encoding="utf-8") as file:
        gdata=json.load(file)
-    if cid=="0":
-      gdata[str(ctx.guild.id)]="None"
-    else:
-      gdata[str(ctx.guild.id)]=int(cid)
+    have_data=False
+    for x in gdata:
+      if x==str(ctx.guild.id):
+        have_data=True
+        if cid=="0":
+          gdata[str(ctx.guild.id)]["id"]="None"
+        else:
+          gdata[str(ctx.guild.id)]["id"]=int(cid)
+
+    if have_data==False:
+      gdata[str(ctx.guild.id)]={"id":int(cid),"lan":"zhtw"}
+
     with open("./data/guildinfo.json", mode="w", encoding="utf-8") as file:
       json.dump(gdata, file)
     if cid == "0":
@@ -41,12 +49,21 @@ class setting(cog_extension):
     pack=language(ctx.guild.id)
     with open("./data/guildinfo.json",mode="r",encoding="utf-8") as file:
       data=json.load(file)
+    
+    have_account=False
 
-    if lan in language_list:
-      data[str(ctx.guild.id)]["lan"]=lan
-      await ctx.send(pack["setting"]["1"])
-    else:
-      await ctx.send(pack["setting"]["2"])
+    for x in data:
+      have_account=True
+      if x==str(ctx.guild.id):
+        if lan in language_list:
+          data[str(ctx.guild.id)]["lan"]=lan
+          await ctx.send(pack["setting"]["1"])
+        else:
+          await ctx.send(pack["setting"]["2"])
+
+    if have_account==False:
+      data[str(ctx.guild.id)]={"id":"None","lan":lan}
+
     with open("./data/guildinfo.json", mode="w", encoding="utf-8") as file:
       json.dump(data, file)
 
