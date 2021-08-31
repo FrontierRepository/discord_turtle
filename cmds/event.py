@@ -12,6 +12,19 @@ def rescale(frame, scale=0.75):
     dimensions = (width, hieght)
     return cv.resize(frame, dimensions, interpolation=cv.INTER_AREA)
 
+def language(id):
+  with open("./data/guildinfo.json",mode="r",encoding="utf-8") as file:
+    gdif=json.load(file)
+
+  with open("./data/localization_pack.json",mode="r",encoding="utf-8") as data:
+    lanpak=json.load(data)
+
+  for x in gdif:
+    if x == str(id):
+      lan=gdif[x]["lan"]
+      return lanpak[lan]
+  return lanpak["zhtw"]
+
 class event(cog_extension):
     @commands.Cog.listener()
     async def on_member_join(self, member):  
@@ -27,8 +40,8 @@ class event(cog_extension):
         
         for x in gdata:
           if str(mg)==x:
-            if gdata[x]!= "None":
-              channel = self.bot.get_channel(gdata[x])
+            if gdata[x]["id"] != "None":
+              channel = self.bot.get_channel(gdata[x]["id"])
         
         await channel.send(">>"+str(member)+" join!")
         await channel.send(file=file)
@@ -44,19 +57,20 @@ class event(cog_extension):
 
       for x in gdata:
         if str(mg)==x:
-          if gdata[x]!= "None":
-            channel = self.bot.get_channel(gdata[x])
+          if gdata[x]["id"] != "None":
+            channel = self.bot.get_channel(gdata[x]["id"])
 
       await channel.send(">>"+str(member)+" leave!")
     #在成員離開時發送訊息
 
     @commands.Cog.listener()
     async def on_message(self, msg):
-        if "https://www.youtube.com/watch?v=dQw4w9WgXcQ" in msg.content or "https://www.youtube.com/watch?v=xvFZjo5PgG0" in msg.content or "https://www.youtube.com/watch?v=QtBDL8EiNZo&t=15s" in msg.content or "www.tomorrowtides.com" in msg.content  or "http://www.lasesp.com/article/" in msg.content or "https://rr.noordstar.me" in msg.content and msg.author!=self.bot.user:
-          await msg.channel.send("!!!警告!!!這可能是rick roll")
+      lan=language(msg.guild.id)
+      if "https://www.youtube.com/watch?v=dQw4w9WgXcQ" in msg.content or "https://www.youtube.com/watch?v=xvFZjo5PgG0" in msg.content or "https://www.youtube.com/watch?v=QtBDL8EiNZo&t=15s" in msg.content or "www.tomorrowtides.com" in msg.content  or "http://www.lasesp.com/article/" in msg.content or "https://rr.noordstar.me" in msg.content and msg.author!=self.bot.user:
+        await msg.channel.send(lan["event"]["1"])
         
-        if msg.content=="安安" and msg.guild.id==881108501915635714:
-          await msg.channel.send("安屁安阿")
+      if msg.content=="安安" and msg.guild.id==881108501915635714:
+        await msg.channel.send("安屁安阿")
     #在偵測到特定訊息時回復
 
 def setup(bot):

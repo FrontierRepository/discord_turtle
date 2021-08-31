@@ -1,0 +1,20 @@
+{
+    "zhtw":{
+      "currency":{"1":"你已經創建過帳戶","2":"帳戶創建成功","3":"你的帳戶有","4":"元","5":"你尚未創建帳戶,輸入","6":"create來創建帳戶","7":"你在工作中得到了","8":"修但幾列,你剛剛才工作ㄟ","9":"啥時有這種數字了?","10":"我不吃負數這套","11":"你太窮了,交易不了","12":"成功交易","13":"元給","14":"對方尚未創建帳戶","15":"這誰?","16":"你成功從","17":"身上搶了","18":"你被抓到了,並且賠償","19":"對方沒帳戶給你搶","7.1":""},
+      "event":{"1":"!!!警告!!!這可能是rick roll"},
+      "game":{"1":"你是連個拳都可以出錯是吧?","2":"你出了","3":"電腦出了","4":"你輸了你這個魯蛇","5":"你神奇的贏了","6":"你和他打成了平手","7":"這是哪個迷因","8":"超時了你這SB,答案是","9":"正確答案","10":"等待配對,輸入+1來加入","11":"看來你太邊緣了","12":"配對成功","13":"對手","14":"遊戲開始","15":"請選擇船艦擺設的位置","16":"等待對方放置船隻","17":"等待過久,你棄權了","18":"對方棄權了","19":"輸入格式錯誤,你棄權了","20":"請選擇要攻擊的位置","21":"等待對方攻擊","22":"等待過久,你棄權了","23":"擊中","24":"對方成功擊中","25":"失誤","26":"對方攻擊","27":"對方失誤","28":"平手","29":"勝利","30":"失敗"},  
+      "meme":{"1":"你rick roll了你自己"},
+      "react":{"1":"what's up sucker","2":"已刪除","3":"則訊息"},
+      "setting":{"1":"語言轉換成功","2":"目前並不支援此語言"},
+      "main":{}
+    },
+    "en":{
+      "currency":{"1":"You have created your account.","2":"Account create successfully.","3":"Your account have ","4":" dollar","5":"You haven't created a account. Type","6":" create to create a new account","7":"You earn ","7.1":" from working","8":"Hold on. Wait a minute. You just finish your worked.","9":"I dont think alphabet is a kind of number.","10":"We dont use negative number while trading.","11":"You are too poor to trade","12":"Successfully give","13":" dollar to","14":"Opposite side doesn't have account","15":"Who??","16":"Successfully rob ","17":" ","18":"You are catched by police and compensation","19":"Opposite side doesn't have account for you to rob"},
+      "event":{"1":"!!!ALERT!!!This might be rick roll"},
+      "game":{"1":"How could you play without read the rule","2":"You:","3":" Computer:","4":"You lose. What a loser","5":"You accidently win","6":"tie","7":"What is this meme?","8":"You waste to much time you nerd.","9":"Exactly","10":"Wait for matching, type +1 to join.","11":"Seem you are lonely.","12":"Match successfully","13":"Opposite","14":"Game Start","15":"Please choose the position of your ship","16":"Wait for opposite choose the position of ship","17":"You waste too much time. You abstain.","18":"Opposite abstain","19":"Wrong format. You abstain","20":"Choose the attack position","21":"Wait for opposite attack","22":"You waste too much time. You abstain.","23":"hit","24":"Opposite hit your ship","25":"miss","26":"Opposite attacked position","27":"Opposite miss his attack","28":"Tie","29":"Victory","30":"Defeat"},
+      "meme":{"1":"You rick roll yourself."},
+      "react":{"1":"what's up sucker","2":"Delete","3":"message"},
+      "setting":{"1":"Language change successfully","2":"Language not supported"},
+      "main":{}
+    }
+  }

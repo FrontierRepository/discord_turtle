@@ -8,6 +8,19 @@ from discord.ext import commands
 
 from core.classes import cog_extension
 
+def language(id):
+  with open("./data/guildinfo.json",mode="r",encoding="utf-8") as file:
+    gdif=json.load(file)
+
+  with open("./data/localization_pack.json",mode="r",encoding="utf-8") as data:
+    lanpak=json.load(data)
+
+  for x in gdif:
+    if x == str(id):
+      lan=gdif[x]["lan"]
+      return lanpak[lan]
+  return lanpak["zhtw"]
+
 class react(cog_extension):
     @commands.command()
     async def hello(self,ctx):
@@ -17,8 +30,9 @@ class react(cog_extension):
     @commands.command()
     @commands.has_permissions(manage_messages=True)
     async def delete(self,ctx,num):
+      lan=language(ctx.guild.id)
       await ctx.channel.purge(limit=int(num)+1)
-      await ctx.send("已刪除"+num+"則訊息")
+      await ctx.send(lan["react"]["1"]+num+lan["react"]["2"])
       await asyncio.sleep(2)
       await ctx.channel.purge(limit=1)
     @commands.command()
@@ -32,16 +46,18 @@ class react(cog_extension):
 
     @commands.command()
     async def test(self, ctx):
-      response=requests.get("https://getpantry.cloud/apiv1/pantry/4feb1fac-6e16-4e25-9b43-12d4a2b7df5e/basket/discord_frontierguard")
-
-      data=response.json()
-      print(data["record"])
-
-      data["disisnew"]="see_its_new"
-
-      update=requests.put("https://getpantry.cloud/apiv1/pantry/4feb1fac-6e16-4e25-9b43-12d4a2b7df5e/basket/discord_frontierguard",json=data)
-
-      print(update)
+      pass
+    
+    @commands.command()
+    async def update(self, ctx,*,msg):
+      if ctx.author.id != 465866092875612189:
+        await ctx.send("你沒有這個權限")
+        return
+      with open("./data/guildinfo.json", mode="r", encoding="utf") as file:
+        data=json.load(file)
+      for x in data:
+        channel=self.bot.get_channel(data[x]["id"])
+        await channel.send(msg)
 
 
 

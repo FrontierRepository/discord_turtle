@@ -3,6 +3,21 @@ import json
 from discord.ext import commands
 from core.classes import cog_extension
 
+language_list=("zhtw","en")
+
+def language(id):
+  with open("./data/guildinfo.json",mode="r",encoding="utf-8") as file:
+    gdif=json.load(file)
+
+  with open("./data/localization_pack.json",mode="r",encoding="utf-8") as data:
+    lanpak=json.load(data)
+
+  for x in gdif:
+    if x == str(id):
+      lan=gdif[x]["lan"]
+      return lanpak[lan]
+  return lanpak["zhtw"]
+
 class setting(cog_extension):
   @commands.command()
   @commands.has_permissions(administrator=True)
@@ -19,6 +34,21 @@ class setting(cog_extension):
       await ctx.send("successfully cancel the active channel")
     else:
       await ctx.send("successfully change active channel into " +cid)
-    
+  
+  @commands.command()
+  @commands.has_permissions(administrator=True)
+  async def language(self, ctx, lan):
+    pack=language(ctx.guild.id)
+    with open("./data/guildinfo.json",mode="r",encoding="utf-8") as file:
+      data=json.load(file)
+
+    if lan in language_list:
+      data[str(ctx.guild.id)]["lan"]=lan
+      await ctx.send(pack["setting"]["1"])
+    else:
+      await ctx.send(pack["setting"]["2"])
+    with open("./data/guildinfo.json", mode="w", encoding="utf-8") as file:
+      json.dump(data, file)
+
 def setup(bot):
   bot.add_cog(setting(bot))
