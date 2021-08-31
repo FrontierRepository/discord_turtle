@@ -38,9 +38,11 @@ async def reload(ctx, extension):
 @bot.event
 async def on_command_error(ctx, ero):
   if isinstance(ero, commands.errors.MissingRequiredArgument):
-    await ctx.send("你這傻B還敢不輸完整R")
+    await ctx.send("你還敢不把參數輸完整R")
   elif isinstance(ero, commands.errors.CommandNotFound):
     await ctx.send("你連個指令都能輸錯")
+  elif isinstance(ero, commands.errors.MissingPermissions):
+    await ctx.send("你缺少必要權限")
   else:
     await ctx.send("尛?")
     print(ero)
