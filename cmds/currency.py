@@ -292,7 +292,7 @@ class currency(cog_extension):
     
   @commands.Cog.listener
   async def on_message(self, msg):
-    if ">>inter" in msg.content:
+    if ">>interbank" in msg.content:
       await asyncio.sleep(5)
       data=take_data()
       cloud_data=take_cloud_data()
