@@ -4,6 +4,7 @@ import time
 import datetime
 import random
 import requests
+import asyncio
 from discord.ext import commands
 from core.classes import cog_extension
 import core.inventory_func as inf
@@ -289,6 +290,24 @@ class currency(cog_extension):
         return
       await ctx.send(lan["currency"]["28"])
     
+  @commands.Cog.listener
+  async def on_message(self, msg):
+    if ">>inter" in msg.content:
+      await asyncio.sleep(5)
+      data=take_data()
+      cloud_data=take_cloud_data()
+      for x in cloud_data["FtoC"]:
+        sucess=False
+        for y in data:
+          if x==y:
+            data[y]["money"]=data[y]["money"]+cloud_data["FtoC"][x]
+            success=True
+        if success==False:
+          cloud_data["CtoF"][x]=cloud_data["FtoC"][x]
+      cloud_data["FtoC"]={}
+      rewrite_data(data)
+      rewrite_cloud_data(cloud_data)
+          
     
 
         
