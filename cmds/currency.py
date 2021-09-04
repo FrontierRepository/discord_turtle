@@ -263,7 +263,11 @@ class currency(cog_extension):
       await ctx.send("您的帳戶存款不夠進行跨行轉帳")
       return
     data[have_account]["money"]=data[have_account]["money"]-money-15
-    cloud_data["CtoF"][str(ctx.author.id)]+=money
+    have_record=False
+    for x in cloud_data["CtoF"]:
+      if x==str(ctx.author.id):
+        cloud_data["CtoF"][str(ctx.author.id)]+=money
+    cloud_data["CtoF"][str(ctx.author.id)]=money
     rewrite_data(data)
     rewrite_cloud_data(cloud_data)
     await ctx.send("成功轉帳"+str(money)+"元(手續費15元)")
