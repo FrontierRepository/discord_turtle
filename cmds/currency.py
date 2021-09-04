@@ -290,7 +290,7 @@ class currency(cog_extension):
         return
       await ctx.send(lan["currency"]["28"])
     
-  @commands.Cog.listener
+  @commands.Cog.listener()
   async def on_message(self, msg):
     if ">>interbank" in msg.content:
       await asyncio.sleep(5)
