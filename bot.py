@@ -79,7 +79,6 @@ async def meme(ctx):
   embed=discord.Embed(title=lan["main"]["12"], color=0x67ff5c)
   embed.add_field(name=infor["prefix"]+"drDisrespect", value=lan["main"]["13"], inline=False)
   embed.add_field(name=infor["prefix"]+"rick_roll", value=lan["main"]["14"], inline=True)
-  embed.add_field(name=infor["prefix"]+"winnie", value=lan["main"]["15"], inline=False)
   embed.add_field(name=infor["prefix"]+"knock_knock", value=lan["main"]["16"], inline=False)
   embed.set_footer(text=lan["main"]["11"])
   await ctx.send(embed=embed)
