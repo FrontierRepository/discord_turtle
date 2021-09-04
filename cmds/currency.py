@@ -6,6 +6,7 @@ import random
 import requests
 from discord.ext import commands
 from core.classes import cog_extension
+import core.inventory_func as inf
 
 with open("./data/infor.json", mode="r", encoding="utf-8") as file:
   infor=json.load(file)
@@ -51,7 +52,8 @@ def language(id):
       return lanpak[lan]
   return lanpak["zhtw"]
 
-inventory={"doggy":100}
+
+inventory={"doggy":{"price":100,"func":inf.doggy}}
 
 class currency(cog_extension):
   @commands.command()
@@ -206,18 +208,18 @@ class currency(cog_extension):
       return
     for x in inventory:
       if stuff == x:
-        if inventory[x] > currency_data[have_account]["money"]:
+        if inventory[x]["price"] > currency_data[have_account]["money"]:
           await ctx.send("你太窮了,買不起")
           return
         for y in currency_data[have_account]["inventory"]:
           if y == stuff:
             currency_data[have_account]["inventory"][stuff]+=1
-            currency_data[have_account]["money"]-=inventory[x]
+            currency_data[have_account]["money"]-=inventory[x]["price"]
             rewrite_data(currency_data)
             await ctx.send("購買成功")
             return
         currency_data[have_account]["inventory"][stuff]=1
-        currency_data[have_account]["money"]-=inventory[x]
+        currency_data[have_account]["money"]-=inventory[x]["price"]
         rewrite_data(currency_data)
         await ctx.send("購買成功")
         return
@@ -260,6 +262,27 @@ class currency(cog_extension):
     rewrite_data(data)
     rewrite_cloud_data(cloud_data)
     await ctx.send("成功轉帳"+str(money)+"元(手續費15元)")
+
+  @commands.command()
+  async def use(self, ctx, stuff):
+    data=take_data()
+    have_account=check_account(ctx.author.id, data)
+    if have_account == False:
+      await ctx.send("你尚未創建帳戶,輸入"+infor["prefix"]+"create來創建")
+      return
+    for x in inventory:
+      if x == stuff:
+        for y in data[have_account]["inventory"]:
+          if data[have_account]["inventory"][y] <= 0:
+            await ctx.send("你沒有這個東西")
+            return
+          await inventory[x]["func"](ctx)
+          data[have_account]["inventory"][y]-=1
+          rewrite_data(data)
+          return
+        await ctx.send("你沒有這個東西")
+        return
+      await ctx.send("有這東西?")
     
     
 
