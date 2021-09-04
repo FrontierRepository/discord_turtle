@@ -194,65 +194,69 @@ class currency(cog_extension):
       await ctx.send(lan["currency"]["5"]+infor["prefix"]+lan["currency"]["6"])
   @commands.command()
   async def shop(self, ctx):
+    lan=language(ctx.guild.id)
     embed=discord.Embed(title="SHOP", color=0x67ff5c)
-    embed.add_field(name="doggy  100$", value="一直可愛但沒啥用的狗勾", inline=False)
-    embed.set_footer(text="今天沒有特價ㄏㄏ")
+    embed.add_field(name="doggy  100$", value=lan["currency"]["20"], inline=False)
+    embed.set_footer(text=lan["currency"]["21"])
     await ctx.send(embed=embed)
   
   @commands.command()
   async def buy(self, ctx, stuff):
+    lan=language(ctx.guild.id)
     currency_data=take_data()
     have_account=check_account(ctx.author.id,currency_data)
     if have_account == False:
-      await ctx.send("你尚未創建帳戶,輸入"+infor["prefix"]+"create來創建")
+      await ctx.send(lan["currency"]["5"]+infor["prefix"]+lan["currency"]["6"])
       return
     for x in inventory:
       if stuff == x:
         if inventory[x]["price"] > currency_data[have_account]["money"]:
-          await ctx.send("你太窮了,買不起")
+          await ctx.send(lan["currency"]["22"])
           return
         for y in currency_data[have_account]["inventory"]:
           if y == stuff:
             currency_data[have_account]["inventory"][stuff]+=1
             currency_data[have_account]["money"]-=inventory[x]["price"]
             rewrite_data(currency_data)
-            await ctx.send("購買成功")
+            await ctx.send(lan["currency"]["23"])
             return
         currency_data[have_account]["inventory"][stuff]=1
         currency_data[have_account]["money"]-=inventory[x]["price"]
         rewrite_data(currency_data)
-        await ctx.send("購買成功")
+        await ctx.send(lan["currency"]["23"])
         return
-    await ctx.send("這啥?")
+    await ctx.send(lan["currency"]["24"])
 
   @commands.command()
   async def stuff(self, ctx, stuff):
+    lan=language(ctx.guild.id)
     currency_data=take_data()
     have_account=check_account(ctx.author.id,currency_data)
     if have_account == False:
-      await ctx.send("你尚未創建帳戶,輸入"+infor["prefix"]+"create來創建")
+      await ctx.send(lan["currency"]["5"]+infor["prefix"]+lan["currency"]["6"])
       return
     for x in inventory:
       if stuff == x:
         for y in currency_data[have_account]["inventory"]:
           if stuff == y:
             if currency_data[have_account]["inventory"][stuff] == 0:
-              await ctx.send("你沒有這個東西")
+              await ctx.send(lan["currency"]["25"])
               return
-            await ctx.send("你有"+str(currency_data[have_account]["inventory"][stuff])+"個"+stuff)
+            await ctx.send(lan["currency"]["26"]+str(currency_data[have_account]["inventory"][stuff])+lan["currency"]["27"]+stuff)
             return
-        await ctx.send("你沒有這個東西")
+        await ctx.send(lan["currency"]["25"])
         return
-      await ctx.send("有這東西?")
+      await ctx.send(lan["currency"]["28"])
 
   @commands.command()
   async def inter(self, ctx, amount):
+    lan=language(ctx.guild.id)
     data=take_data()
     cloud_data=take_cloud_data()
     money=int(amount)
     have_account=check_account(ctx.author.id,data)
     if have_account == False:
-      await ctx.send("你尚未創建帳戶,輸入"+infor["prefix"]+"create來創建")
+      await ctx.send(lan["currency"]["5"]+infor["prefix"]+lan["currency"]["6"])
       return
     if data[have_account]["money"]<=money+15:
       await ctx.send("您的帳戶存款不夠進行跨行轉帳")
@@ -265,24 +269,25 @@ class currency(cog_extension):
 
   @commands.command()
   async def use(self, ctx, stuff):
+    lan=language(ctx.guild.id)
     data=take_data()
     have_account=check_account(ctx.author.id, data)
     if have_account == False:
-      await ctx.send("你尚未創建帳戶,輸入"+infor["prefix"]+"create來創建")
+      await ctx.send(lan["currency"]["5"]+infor["prefix"]+lan["currency"]["6"])
       return
     for x in inventory:
       if x == stuff:
         for y in data[have_account]["inventory"]:
           if data[have_account]["inventory"][y] <= 0:
-            await ctx.send("你沒有這個東西")
+            await ctx.send(lan["currency"]["25"])
             return
           await inventory[x]["func"](ctx)
           data[have_account]["inventory"][y]-=1
           rewrite_data(data)
           return
-        await ctx.send("你沒有這個東西")
+        await ctx.send(lan["currency"]["25"])
         return
-      await ctx.send("有這東西?")
+      await ctx.send(lan["currency"]["28"])
     
     
 
