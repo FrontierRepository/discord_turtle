@@ -27,7 +27,7 @@ def language(id):
 @bot.event
 async def on_ready():
     print(">>>>>bot is starting to run<<<<<")
-    await bot.change_presence(status=discord.Status.online, activity=discord.Game("8==D help"))
+    await bot.change_presence(status=discord.Status.online, activity=discord.Game(infor["prefix"]"help"))
 #確認機器人開始運作
 
 @bot.command()
