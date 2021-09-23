@@ -36,7 +36,7 @@ def rewrite_data(data):
 
 def search_user_in_guild(user, member_list):
   for member in member_list:
-    if user == str(member)[:-5]:
+    if user == str(member)[:-5] or user==member.display_name:
       return member
   return False
 
@@ -76,7 +76,7 @@ class currency(cog_extension):
     currency_data=take_data()
     have_data=check_account(ctx.author.id,currency_data)
     if have_data != False:
-      await ctx.send(lan["currency"]["3"]+str(currency_data[have_data]["money"])+lan["currency"]["4"])
+      await ctx.send(ctx.author.mention+lan["currency"]["3"]+str(currency_data[have_data]["money"])+lan["currency"]["4"])
       return
     await ctx.send(lan["currency"]["5"]+infor["prefix"]+lan["currency"]["6"])
   
@@ -126,7 +126,8 @@ class currency(cog_extension):
     have_account=check_account(ctx.author.id, currency_data)
     if have_account != False:
       for member in ctx.guild.members:
-        if user_name == str(member)[:-5]:
+        if user_name == str(member)[:-5] or user_name == member.display_name:
+          mem=member
           have_account2=check_account(member.id, currency_data)
           if have_account2 != False:
             try:
@@ -143,7 +144,7 @@ class currency(cog_extension):
                 return
               currency_data[have_account]["money"]-=give_total
               currency_data[have_account2]["money"]+=give_total
-              await ctx.send(lan["currency"]["12"]+amount+lan["currency"]["13"]+user_name)
+              await ctx.send(lan["currency"]["12"]+amount+lan["currency"]["13"]+member.mention)
               rewrite_data(currency_data)
               return
           else:
@@ -165,7 +166,7 @@ class currency(cog_extension):
       if have_member != False:
         have_account2=check_account(have_member.id,currency_data)
         if have_account2 != False:
-          member2_name=str(have_member)[:-5]
+          member2_name=have_member.mention
           chance=random.uniform(1,10)
           if chance >= 6:
             randomF=random.uniform(300,700)
@@ -311,6 +312,29 @@ class currency(cog_extension):
       cloud_data["FtoC"]={}
       rewrite_data(data)
       rewrite_cloud_data(cloud_data)
+
+  @commands.command()
+  async def beg(self,ctx):
+    lan=language(ctx.guild.id)
+    data=take_data()
+    have_account=check_account(ctx.author.id,data)
+    if have_account==False:
+      await ctx.send(lan["currency"]["5"]+infor["prefix"]+lan["currency"]["6"])
+    chance=random.uniform(1,10)
+    if chance>=7:
+      get=random.uniform(200,500)
+      get=round(get)
+      data[have_account]["money"]+=get
+      await ctx.send(lan["currency"]["29"]+str(get)+lan["currency"]["4"]+lan["currency"]["32"])
+      rewrite_data(data)
+    elif chance>=4:
+      get=random.uniform(200,500)
+      get=round(get)
+      data[have_account]["money"]-=get
+      await ctx.send(lan["currency"]["30"]+str(get)+lan["currency"]["4"]+lan["currency"]["33"])
+      rewrite_data(data)
+    else:
+      await ctx.send(lan["currency"]["31"])
           
     
 

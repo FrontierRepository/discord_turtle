@@ -1,3 +1,4 @@
+
 import discord
 import random
 import asyncio
@@ -15,8 +16,15 @@ for filename in os.listdir("./cmds"):
       with open("data."+str(filename) ,mode="r",encoding="utf-8") as file:
         meda=json.load(file)
 
+sign={
+  "r":"rock",
+  "p":"paper",
+  "s":"scissor"
+}
+
 def jm(plyr,ai,ero):
   if ero=="yep":
+
     return "lol"
   if plyr=="r":
     if ai=="r":
@@ -65,7 +73,7 @@ class game(cog_extension):
     ai=random.choice(["r","p","s"])
     rst=jm(ms,ai,ero)
     if ero!="yep":
-      await ctx.send(lan["game"]["2"]+ms+lan["game"]["3"]+ai)
+      await ctx.send(lan["game"]["2"]+sign[ms]+lan["game"]["3"]+sign[ai])
     await asyncio.sleep(1)
     if rst=="lose":
       await ctx.send(lan["game"]["4"])
@@ -127,17 +135,23 @@ class game(cog_extension):
 
     channel1=await ctx.guild.create_text_channel("player1")
     channel2=await ctx.guild.create_text_channel("player2")
-    for role in ctx.guild.roles:
-      if role.name=="@everyone":
-        await channel1.set_permissions(role,view_channel=False)
-        await channel2.set_permissions(role,view_channel=False)
+    
 
     for member in ctx.guild.members:
+      if member.id==846932821397995540:
+        await channel1.set_permissions(member,view_channel=True)
+        await channel2.set_permissions(member,view_channel=True)
+        
+      
       if member==user1:
         await channel1.set_permissions(member,view_channel=True)
       if member==user2:
         await channel2.set_permissions(member,view_channel=True)
-    
+
+    for role in ctx.guild.roles:
+      if role.name=="@everyone":
+        await channel1.set_permissions(role,view_channel=False)
+        await channel2.set_permissions(role,view_channel=False)
     await channel1.send(lan["game"]["14"]+user1.mention)
     await channel2.send(lan["game"]["14"]+user2.mention)
     await channel1.send(infor["25"])
