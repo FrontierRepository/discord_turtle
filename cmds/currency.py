@@ -9,6 +9,8 @@ from discord.ext import commands
 from core.classes import cog_extension
 import core.inventory_func as inf
 
+
+
 with open("./data/infor.json", mode="r", encoding="utf-8") as file:
   infor=json.load(file)
 
@@ -65,7 +67,7 @@ class currency(cog_extension):
       if str(ctx.author.id) == x:
         await ctx.send(lan["currency"]["1"])
         return
-    currency_data[ctx.author.id]={"money":0,"inventory":{},"last_work":"First"}
+    currency_data[ctx.author.id]={"money":0,"inventory":{},"last_work":"First","jail":False}
     rewrite_data(currency_data)
     await ctx.send(lan["currency"]["2"])
   #創建帳戶
@@ -92,7 +94,7 @@ class currency(cog_extension):
     now_time=datetime.datetime.now()
     
     if currency_data[have_account]["last_work"] == "First":
-      random_num=random.uniform(100,400)
+      random_num=random.uniform(100,700)
       salary=round(random_num)
       currency_data[have_account]["money"]+=salary
       await ctx.send(lan["currency"]["7"]+str(salary)+lan["currency"]["4"]+lan["currency"]["7.1"])
@@ -159,6 +161,10 @@ class currency(cog_extension):
   @commands.command()
   async def rob(self, ctx, user_name):
     lan=language(ctx.guild.id)
+    now_time=datetime.datetime.now()
+    thirty_minutes=datetime.timedelta(
+      minutes=10
+    )
     currency_data=take_data()
     have_account=check_account(ctx.author.id,currency_data)
     if have_account != False:
@@ -166,24 +172,33 @@ class currency(cog_extension):
       if have_member != False:
         have_account2=check_account(have_member.id,currency_data)
         if have_account2 != False:
-          member2_name=have_member.mention
+          for x in currency_data[have_account]:
+            if x=="jail":
+              if currency_data[have_account]["jail"]!=False:
+                last_time=datetime.datetime.fromtimestamp(currency_data[have_account]["jail"])
+                been=last_time-now_time
+                if been<=thirty_minutes:
+                  await ctx.send(lan["currency"]["34"])
+                  return
+          member2_name=have_member.display_name
           chance=random.uniform(1,10)
           if chance >= 6:
             randomF=random.uniform(300,700)
             get=round(randomF)
-            currency_data[have_account]["money"]+=get
-            currency_data[have_account2]["money"]-=get
             if currency_data[have_account2]["money"] < 0:
               currency_data[have_account2]["money"]=0
+            else:  
+              currency_data[have_account2]["money"]-=get
+            currency_data[have_account]["money"]+=get
             await ctx.send(lan["currency"]["16"]+member2_name+lan["currency"]["17"]+str(get)+lan["currency"]["4"])
             rewrite_data(currency_data)
             return
           else:
             currency_data[have_account]["money"]-=500
             currency_data[have_account2]["money"]+=500
-            if currency_data[have_account]["money"] < 0:
-              currency_data[have_account]["money"]=0
-            await ctx.send(lan["currency"]["18"]+member2_name+str(500)+lan["currency"]["4"])
+            await ctx.send(lan["currency"]["18"]+member2_name+""+str(500)+lan["currency"]["4"])
+            now_unix_time=time.mktime(now_time.timetuple())
+            currency_data[have_account]["jail"]=now_unix_time
             rewrite_data(currency_data)
             return
         else:
