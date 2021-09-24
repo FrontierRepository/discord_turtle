@@ -17,9 +17,9 @@ for filename in os.listdir("./cmds"):
         meda=json.load(file)
 
 sign={
-  "r":"rock",
-  "p":"paper",
-  "s":"scissor"
+  "r":"🌑",
+  "p":"📄",
+  "s":"✂"
 }
 
 def jm(plyr,ai,ero):
@@ -120,7 +120,10 @@ class game(cog_extension):
       infor=json.load(file)
 
     user1=ctx.author
-    await ctx.send(lan["game"]["10"])
+   
+    await ctx.send("@here")     
+    await ctx.send(lan["game"]["10"])     
+
     def check(m):
       return m.content=="+1" and m.author!=ctx.author and m.channel==ctx.channel
     try:

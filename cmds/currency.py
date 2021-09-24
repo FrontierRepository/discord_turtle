@@ -94,7 +94,7 @@ class currency(cog_extension):
     now_time=datetime.datetime.now()
     
     if currency_data[have_account]["last_work"] == "First":
-      random_num=random.uniform(100,700)
+      random_num=random.uniform(150,800)
       salary=round(random_num)
       currency_data[have_account]["money"]+=salary
       await ctx.send(lan["currency"]["7"]+str(salary)+lan["currency"]["4"]+lan["currency"]["7.1"])
@@ -119,7 +119,9 @@ class currency(cog_extension):
       rewrite_data(currency_data)
       return
     else:
-      await ctx.send(lan["currency"]["8"])
+      left=thirty_minutes-how_long_have_been
+      
+      await ctx.send(lan["currency"]["8"]+str(left))
     
   @commands.command()
   async def give(self ,ctx ,user_name, amount):
@@ -162,6 +164,7 @@ class currency(cog_extension):
   async def rob(self, ctx, user_name):
     lan=language(ctx.guild.id)
     now_time=datetime.datetime.now()
+    fine=400
     thirty_minutes=datetime.timedelta(
       minutes=10
     )
@@ -176,7 +179,7 @@ class currency(cog_extension):
             if x=="jail":
               if currency_data[have_account]["jail"]!=False:
                 last_time=datetime.datetime.fromtimestamp(currency_data[have_account]["jail"])
-                been=last_time-now_time
+                been=now_time-last_time
                 if been<=thirty_minutes:
                   await ctx.send(lan["currency"]["34"])
                   return
@@ -194,9 +197,9 @@ class currency(cog_extension):
             rewrite_data(currency_data)
             return
           else:
-            currency_data[have_account]["money"]-=500
-            currency_data[have_account2]["money"]+=500
-            await ctx.send(lan["currency"]["18"]+member2_name+""+str(500)+lan["currency"]["4"])
+            currency_data[have_account]["money"]-=fine
+            currency_data[have_account2]["money"]+=fine
+            await ctx.send(lan["currency"]["18"]+member2_name+""+str(fine)+lan["currency"]["4"])
             now_unix_time=time.mktime(now_time.timetuple())
             currency_data[have_account]["jail"]=now_unix_time
             rewrite_data(currency_data)
@@ -345,18 +348,70 @@ class currency(cog_extension):
     elif chance>=4:
       get=random.uniform(200,500)
       get=round(get)
-      data[have_account]["money"]-=get
+      if data[have_account]["money"]-get<=0 and data[have_account]["money"]>=0:
+        data[have_account]["money"]=0
+      else:
+        data[have_account]["money"]-=get
       await ctx.send(lan["currency"]["30"]+str(get)+lan["currency"]["4"]+lan["currency"]["33"])
       rewrite_data(data)
     else:
       await ctx.send(lan["currency"]["31"])
+  @commands.command()
+  async def rank(self, ctx):
+    currency_data=take_data()
+    guild_data=[]
+    rank=[]
+    for member in ctx.guild.members:
+      have_account=check_account(member.id, currency_data)
+      if have_account!=False:
+        guild_data+=[have_account]
+        rank+=[currency_data[have_account]["money"]]
+    
+    count=0
+    count2=0
+    for x in rank:
+      min=None
+      min_dex=None
+      count+=1
+      for x in rank:      
+        if count2<count-1:
+          count2+=1
+          continue
+        if min!=None:
+          if rank[count2]>=min:
+            min=rank[count2]
+            min_dex=count2
+        else:
+          min=rank[count2]
+          min_dex=count2
+        count2+=1  
+      count2=0
+      box=rank[count-1]
+      rank[count-1]=rank[min_dex]
+      rank[min_dex]=box
+      box=guild_data[count-1]
+      guild_data[count-1]=guild_data[min_dex]
+      guild_data[min_dex]=box
+
+
+
+    embed=discord.Embed(title=ctx.guild.name, color=0x67ff5c)
+    count3=0
+    for x in rank:
+      member=ctx.guild.get_member(int(guild_data[count3]))
+      embed.add_field(name=f"{count3+1}. {member.display_name}",value=f"{rank[count3]}$",inline=False)
+      count3+=1
+    await ctx.send(embed=embed)
+
+        
+
+  
+
+      
           
     
 
         
-    
-
-    
-    
+        
 def setup(bot):
   bot.add_cog(currency(bot))
