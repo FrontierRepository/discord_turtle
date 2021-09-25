@@ -121,6 +121,7 @@ async def currency(ctx):
   embed.add_field(name=infor["prefix"]+"shop", value=lan["main"]["34"], inline=False)
   embed.add_field(name=infor["prefix"]+"buy [stuff]", value=lan["main"]["35"], inline=False)
   embed.add_field(name=infor["prefix"]+"use [stuff]", value=lan["main"]["36"], inline=False)
+  embed.add_field(name=infor["prefix"]+"rank",value=lan["main"]["38"],inline=False)
   embed.set_footer(text=lan["main"]["11"])
   await ctx.send(embed=embed)
 #更改預設的help指令
