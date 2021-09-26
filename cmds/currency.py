@@ -56,7 +56,7 @@ def language(id):
   return lanpak["zhtw"]
 
 
-inventory={"doggy":{"price":100,"func":inf.doggy}}
+inventory={"doggy":{"price":100,"func":inf.doggy},"AK47":{"price":500,"func":inf.ak47}}
 
 class currency(cog_extension):
   @commands.command()
@@ -217,6 +217,7 @@ class currency(cog_extension):
     lan=language(ctx.guild.id)
     embed=discord.Embed(title="SHOP", color=0x67ff5c)
     embed.add_field(name="doggy  100$", value=lan["currency"]["20"], inline=False)
+    embed.add_field(name="AK47 500$", value=lan["currency"]["35"], inline=False)
     embed.set_footer(text=lan["currency"]["21"])
     await ctx.send(embed=embed)
   
@@ -266,7 +267,7 @@ class currency(cog_extension):
             return
         await ctx.send(lan["currency"]["25"])
         return
-      await ctx.send(lan["currency"]["28"])
+    await ctx.send(lan["currency"]["28"])
 
   @commands.command()
   async def inter(self, ctx, amount):
@@ -302,16 +303,18 @@ class currency(cog_extension):
     for x in inventory:
       if x == stuff:
         for y in data[have_account]["inventory"]:
-          if data[have_account]["inventory"][y] <= 0:
-            await ctx.send(lan["currency"]["25"])
+          if y == stuff:
+            if data[have_account]["inventory"][y] <= 0:
+              await ctx.send(lan["currency"]["25"])
+              return
+            await inventory[x]["func"](ctx,self.bot)
+            data=take_data()
+            data[have_account]["inventory"][y]-=1
+            rewrite_data(data)
             return
-          await inventory[x]["func"](ctx)
-          data[have_account]["inventory"][y]-=1
-          rewrite_data(data)
-          return
         await ctx.send(lan["currency"]["25"])
         return
-      await ctx.send(lan["currency"]["28"])
+    await ctx.send(lan["currency"]["28"])
     
   @commands.Cog.listener()
   async def on_message(self, msg):

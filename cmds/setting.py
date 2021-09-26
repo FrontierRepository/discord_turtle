@@ -32,12 +32,13 @@ class setting(cog_extension):
         if cid=="0":
           gdata[str(ctx.guild.id)]["id"]="None"
         else:
-          gdata[str(ctx.guild.id)]["id"]=int(cid)
+          gdata[str(ctx.guild.id)]["id"]=cid
 
     if have_data==False:
-      gdata[str(ctx.guild.id)]={"id":int(cid),"lan":"zhtw"}
+      gdata[str(ctx.guild.id)]={"id":cid,"lan":"zhtw"}
 
     update=requests.post("https://getpantry.cloud/apiv1/pantry/01865685-19e7-4f85-9aa8-d8da22683475/basket/cute_turtle_guildinfo",json=gdata)
+    print(update)
     if cid == "0":
       await ctx.send("successfully cancel the active channel")
     else:
