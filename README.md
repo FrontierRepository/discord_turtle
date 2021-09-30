@@ -1,12 +1,12 @@
 ﻿# discord-turtle
 this is a bot that use on discord
 # Folder
-bot.py=>main program
-keep_alive=>bot's website's backend
-cmds=>most of the commands are placed in this folder
-templates=>bot's website's frontend
-data=>some main data
-cores=>some program that will be used multiple times
+bot.py=>main program\n
+keep_alive=>bot's website's backend\n
+cmds=>most of the commands are placed in this folder\n
+templates=>bot's website's frontend\n
+data=>some main data\n
+cores=>some program that will be used multiple times\n
 img=>img
 # this shit is still in beta mode
 # i have copyright
