@@ -41,6 +41,10 @@ def check_account(id, data):
       return x
   return False 
 
+def search_user_id(mention):
+  idd=mention[3:-1]
+  return idd
+
 async def doggy(ctx,bot):
   await ctx.send("https://www.youtube.com/watch?v=Uz9k6QGqXj0")
 
@@ -65,10 +69,11 @@ async def ak47(ctx,bot):
   now_time=datetime.datetime.now()
   fine=400
   thirty_minutes=datetime.timedelta(
-    minutes=10
+    minutes=5
   )
 
-  have_member=search_user_in_guild(msg.content, ctx.guild.members)
+  idd=search_user_id(msg.content)
+  have_member=ctx.guild.get_member(int(idd))
   if have_member != False:
     have_account2=check_account(have_member.id,currency_data)
     if have_account2 != False:
@@ -94,6 +99,8 @@ async def ak47(ctx,bot):
         currency_data[have_account2]["money"]-=get
       currency_data[str(ctx.author.id)]["money"]+=get
       await ctx.send(lan["currency"]["16"]+member2_name+lan["currency"]["17"]+str(get)+lan["currency"]["4"])
+      now_unix_time=time.mktime(now_time.timetuple())
+      currency_data[str(ctx.author.id)]["jail"]=now_unix_time
       await rewrite_data(currency_data)
       return
     else:

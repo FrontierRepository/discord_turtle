@@ -45,8 +45,8 @@ class react(cog_extension):
         await ctx.send(role.name) 
 
     @commands.command()
-    async def test(self, ctx):
-      pass
+    async def test(self, ctx,mention):
+      print(mention[3:-1])
     
     @commands.command()
     async def update(self, ctx,*,msg):

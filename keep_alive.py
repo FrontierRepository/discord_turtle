@@ -2,7 +2,6 @@ from flask import Flask, render_template, request
 from threading import Thread
 import discord
 from discord.ext import commands
-import main
 import asyncio
 
 available_pswd=("haha")

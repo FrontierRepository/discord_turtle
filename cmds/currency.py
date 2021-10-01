@@ -36,11 +36,10 @@ def check_account(id, data):
 def rewrite_data(data):
   update=requests.post("https://getpantry.cloud/apiv1/pantry/d26176a1-04a8-42ce-a714-0e40e58b2801/basket/cute_turtle_currency",json=data)
 
-def search_user_in_guild(user, member_list):
-  for member in member_list:
-    if user == str(member)[:-5] or user==member.display_name:
-      return member
-  return False
+
+def search_user_id(mention):
+  idd=mention[3:-1]
+  return idd
 
 def language(id):
   response=requests.get("https://getpantry.cloud/apiv1/pantry/01865685-19e7-4f85-9aa8-d8da22683475/basket/cute_turtle_guildinfo")
@@ -48,7 +47,6 @@ def language(id):
 
   with open("./data/localization_pack.json",mode="r",encoding="utf-8") as data:
     lanpak=json.load(data)
-
   for x in gdif:
     if x == str(id):
       lan=gdif[x]["lan"]
@@ -56,7 +54,7 @@ def language(id):
   return lanpak["zhtw"]
 
 
-inventory={"doggy":{"price":100,"func":inf.doggy},"AK47":{"price":500,"func":inf.ak47}}
+inventory={"doggy":{"price":100,"func":inf.doggy},"AK47":{"price":550,"func":inf.ak47}}
 
 class currency(cog_extension):
   @commands.command()
@@ -110,7 +108,7 @@ class currency(cog_extension):
     )
 
     if how_long_have_been>=thirty_minutes:
-      random_num=random.uniform(100,400)
+      random_num=random.uniform(150,800)
       salary=round(random_num)
       currency_data[have_account]["money"]+=salary
       await ctx.send(lan["currency"]["7"]+str(salary)+lan["currency"]["4"]+lan["currency"]["7.1"])
@@ -128,9 +126,10 @@ class currency(cog_extension):
     lan=language(ctx.guild.id)
     currency_data=take_data()
     have_account=check_account(ctx.author.id, currency_data)
+    idd=search_user_id(user_name)
+    member=ctx.guild.get_member(int(idd))
     if have_account != False:
-      for member in ctx.guild.members:
-        if user_name == str(member)[:-5] or user_name == member.display_name:
+      if member!=None:
           mem=member
           have_account2=check_account(member.id, currency_data)
           if have_account2 != False:
@@ -154,8 +153,8 @@ class currency(cog_extension):
           else:
             await ctx.send(lan["currency"]["14"])
             return
-        else:
-          pass
+      else:
+        pass
       await ctx.send(lan["currency"]["15"])
       return
     await ctx.send(lan["currency"]["5"]+infor["prefix"]+lan["currency"]["6"])
@@ -166,13 +165,14 @@ class currency(cog_extension):
     now_time=datetime.datetime.now()
     fine=400
     thirty_minutes=datetime.timedelta(
-      minutes=10
+      minutes=3
     )
     currency_data=take_data()
     have_account=check_account(ctx.author.id,currency_data)
     if have_account != False:
-      have_member=search_user_in_guild(user_name, ctx.guild.members)
-      if have_member != False:
+      idd=search_user_id(user_name)
+      have_member=ctx.guild.get_member(int(idd))
+      if have_member != None:
         have_account2=check_account(have_member.id,currency_data)
         if have_account2 != False:
           for x in currency_data[have_account]:
@@ -194,6 +194,8 @@ class currency(cog_extension):
               currency_data[have_account2]["money"]-=get
             currency_data[have_account]["money"]+=get
             await ctx.send(lan["currency"]["16"]+member2_name+lan["currency"]["17"]+str(get)+lan["currency"]["4"])
+            now_unix_time=time.mktime(now_time.timetuple())
+            currency_data[have_account]["jail"]=now_unix_time
             rewrite_data(currency_data)
             return
           else:
@@ -217,7 +219,7 @@ class currency(cog_extension):
     lan=language(ctx.guild.id)
     embed=discord.Embed(title="SHOP", color=0x67ff5c)
     embed.add_field(name="doggy  100$", value=lan["currency"]["20"], inline=False)
-    embed.add_field(name="AK47 500$", value=lan["currency"]["35"], inline=False)
+    embed.add_field(name="AK47 550$", value=lan["currency"]["35"], inline=False)
     embed.set_footer(text=lan["currency"]["21"])
     await ctx.send(embed=embed)
   
@@ -405,6 +407,7 @@ class currency(cog_extension):
       embed.add_field(name=f"{count3+1}. {member.display_name}",value=f"{rank[count3]}$",inline=False)
       count3+=1
     await ctx.send(embed=embed)
+   
 
         
 
