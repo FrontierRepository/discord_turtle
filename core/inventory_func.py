@@ -69,11 +69,12 @@ async def ak47(ctx,bot):
   now_time=datetime.datetime.now()
   fine=400
   thirty_minutes=datetime.timedelta(
-    minutes=5
+    minutes=0
   )
 
   idd=search_user_id(msg.content)
-  have_member=ctx.guild.get_member(int(idd))
+  print(idd)
+  have_member=search_user_in_guild(msg.content,ctx.guild.members)
   if have_member != False:
     have_account2=check_account(have_member.id,currency_data)
     if have_account2 != False:
